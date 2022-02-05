@@ -1,3 +1,3 @@
 # CSE360_RestaurantGroupProject
-Hello World
+Hello World\n
 Not sure if any of my commits worked

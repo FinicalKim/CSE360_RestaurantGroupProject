@@ -6,9 +6,9 @@ import javafx.scene.control.Button;
 import javafx.scene.layout.StackPane;
 import javafx.stage.Stage;
 
-Public class Main{
+Public class Main extends Aplication {
   public static void main (String[] args){
-
-
+    
+    
   }
 }

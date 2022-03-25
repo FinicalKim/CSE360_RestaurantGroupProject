@@ -18,6 +18,7 @@ public class Main_test
 		inputPassword = stdin.readLine();
 		User newUser = new User(inputName, inputPassword);
 		System.out.println("'newUser' username is: " + newUser.getUserID() + " with password: " + newUser.getPassword());
+		
 	}
 }
 

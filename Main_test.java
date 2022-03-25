@@ -10,8 +10,12 @@ import javafx.stage.Stage;
 
 public class Main_test extends Application
 {
+	Button button;
+	
 	public static void main(String[] args) throws IOException
 	{
+		launch(args);
+		
 		String inputName = new String();
 		String inputPassword = new String();
 		
@@ -28,5 +32,18 @@ public class Main_test extends Application
 		System.out.println("'newUser' username is: " + newUser.getUserID() + " with password: " + newUser.getPassword());
 		
 	}
+	public void start(Stage primaryStage) throws Exception {
+		primaryStage.setTitle("Restraurant");
+		button = new Button();
+		button.setText("Create new User");
+		
+		StackPane layout = new StackPane();
+		layout.getChildren().add(button);
+		
+		Scene scene = new Scene(layout, 300, 250);
+		primaryStage.setScene(scene);
+		primaryStage.show();
+	}
+	
 }
 

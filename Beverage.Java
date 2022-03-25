@@ -10,7 +10,7 @@ public class Beverage extends food{
     this.foodTitle = "No food title";
     this.foodPrice = 0;
   }
-  public Food(foodTitle, foodPrice, size){
+  public Food(foodTitle, size){
     this.foodTitle = foodTitle;
     this.size = size;
     if (size == "large"){

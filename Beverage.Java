@@ -7,12 +7,13 @@ public class Beverage extends food{
   private double foodPrice;
   
   public Food(){
-  this.foodTitle = "No food title";
-  this.foodPrice = 0;
+    this.foodTitle = "No food title";
+    this.foodPrice = 0;
   }
-  public Food(foodTitle, foodPrice){
-  this.foodTitle = foodTitle;
-  this.foodPrice = foodPrice;
+  public Food(foodTitle, foodPrice, size){
+    this.foodTitle = foodTitle;
+    this.foodPrice = foodPrice;
+    this.size = size;
   }
   
   public void setFoodTitle(foodTitle){
@@ -20,14 +21,22 @@ public class Beverage extends food{
   }
   
   public String getFoodTitle(){
-  return this.foodTitle;
+    return this.foodTitle;
   }
   
   public void setFoodPrice(foodPrice){
-  this.foodPrice = foodPrice;
+    this.foodPrice = foodPrice;
   }
   
   public double getFoodPrice(){
-  return this.foodPrice;
+    return this.foodPrice;
+  }
+  
+  public void setsize(size){
+  this.size = size;
+  }
+  
+  public String getsize(){
+    return this.size;
   }
 }

@@ -1,4 +1,4 @@
-public class Food{
+public class Breakfast extends food{
   private String foodTitle;
   private double foodPrice;
   

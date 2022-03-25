@@ -8,7 +8,7 @@ import javafx.scene.control.Button;
 import javafx.scene.layout.StackPane;
 import javafx.stage.Stage;
 
-public class Main_test 
+public class Main_test extends Application
 {
 	public static void main(String[] args) throws IOException
 	{

@@ -1,5 +1,7 @@
+import java.util.*;
+
 public class Menu extends Food{
- private Food foodMenu[];
+ private LinkedList<Food> foodMenu = new LinkedList<LinkedList>;
  
  
   

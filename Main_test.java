@@ -8,7 +8,7 @@ import javafx.scene.control.Button;
 import javafx.scene.layout.StackPane;
 import javafx.stage.Stage;
 
-public class Main_test extends Application
+public class Main_test extends Application implements EventHandler<Action>
 {
 	Button button;
 	
@@ -32,10 +32,13 @@ public class Main_test extends Application
 		System.out.println("'newUser' username is: " + newUser.getUserID() + " with password: " + newUser.getPassword());
 		
 	}
+	
 	public void start(Stage primaryStage) throws Exception {
 		primaryStage.setTitle("Restraurant");
 		button = new Button();
 		button.setText("Create new User");
+		
+		button.setOnAction(this);
 		
 		StackPane layout = new StackPane();
 		layout.getChildren().add(button);
@@ -45,5 +48,11 @@ public class Main_test extends Application
 		primaryStage.show();
 	}
 	
+		//handles the event when the button is clicked
+	public void handle(ActionEvent event){
+		if (event.getScource() == button){
+			System.out.println("");
+		}
+	}
 }
 

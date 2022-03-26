@@ -10,7 +10,6 @@ import javafx.stage.Stage;
 
 public class Main_test extends Application implements EventHandler<Action>
 {
-	Button button1;
 	Stage window;
 	Stage scene1, scene2;
 	
@@ -37,14 +36,24 @@ public class Main_test extends Application implements EventHandler<Action>
 	
 	public void start(Stage primaryStage) throws Exception {
 		window = primaryStage;
-		Label label1 = new Label("Welcome");
-		primaryStage.setTitle("Restraurant");
-		button1 = new Button();
-		
+		window.setTitle("Restraurant");
+		Label label1 = new Label("Welcome to the Restaurants application");
+			// Button 1
+		Button button1 = new Button("Go to Account information");
 		button.setText("Create new User");
+		button1.setOnAction(e -> window.setScene(scene2));
 		
-		button.setOnAction(e -> window.setScene(scene2));
+			// Layout 1
+		VBox layout1 = new VBox(20);
+		layout1.getChildren().addAll(label1, button1);
+		scene1 = new Scene(layout1, 200,200);
 		
+			// Button 2
+		Button button2 = new Button("Go to Account information");
+		button.setText("Go back to main menu");
+		button2.setOnAction(e -> window.setScene(scene1));
+		
+			// Layout example
 		StackPane layout = new StackPane();
 		layout.getChildren().add(button);
 		

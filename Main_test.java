@@ -10,7 +10,9 @@ import javafx.stage.Stage;
 
 public class Main_test extends Application implements EventHandler<Action>
 {
-	Button button;
+	Button button1;
+	Stage window;
+	Stage scene1, scene2;
 	
 	public static void main(String[] args) throws IOException
 	{
@@ -34,25 +36,21 @@ public class Main_test extends Application implements EventHandler<Action>
 	}
 	
 	public void start(Stage primaryStage) throws Exception {
+		window = primaryStage;
+		Label label1 = new Label("Welcome");
 		primaryStage.setTitle("Restraurant");
-		button = new Button();
+		button1 = new Button();
+		
 		button.setText("Create new User");
 		
-		button.setOnAction(this);
+		button.setOnAction(e -> window.setScene(scene2));
 		
 		StackPane layout = new StackPane();
 		layout.getChildren().add(button);
 		
 		Scene scene = new Scene(layout, 300, 250);
-		primaryStage.setScene(scene);
-		primaryStage.show();
-	}
-	
-		//handles the event when the button is clicked
-	public void handle(ActionEvent event){
-		if (event.getScource() == button){
-			System.out.println("");
-		}
+		window.setScene(scene);
+		window.show();
 	}
 }
 

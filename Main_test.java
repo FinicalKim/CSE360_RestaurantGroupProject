@@ -37,14 +37,15 @@ public class Main_test extends Application implements EventHandler<ActionEvent>
 	}
 	
 	public void start(Stage primaryStage) throws Exception {
-		window = primaryStage;
+		window = primaryStage;	// variable to reference the applications window
+			//Title the window "Restaurant"
 		window.setTitle("Restaurant");
 		Label label1 = new Label("Welcome to the Restaurants application");
 
-		// Button 1
+			// Button 1
 		Button button1 = new Button("Go to Account information");
 		button1.setText("Create new User");
-		button1.setOnAction(e -> window.setScene(scene2));
+		button1.setOnAction(e -> window.setScene(scene2));	//button 1 sends you to the account information page
 		
 			// Layout 1
 		VBox layout1 = new VBox(20);
@@ -52,16 +53,17 @@ public class Main_test extends Application implements EventHandler<ActionEvent>
 		scene1 = new Scene(layout1, 200,200);
 		
 			// Button 2
-		Button button2 = new Button("Go to Account information");
+		Button button2 = new Button("Go to Home page");
 		button2.setText("Go back to main menu");
-		button2.setOnAction(e -> window.setScene(scene1));
+		button2.setOnAction(e -> window.setScene(scene1));	// When button 2 is clicked it send you back to the home page
 		
-			// Layout example
-		StackPane layout = new StackPane();
-		layout.getChildren().add(button2);
+			// Layout 2
+		StackPane layout2 = new StackPane();
+		layout2.getChildren().add(button2);
+		scene2 = new Scene(layout2, 600,600);
 		
-		Scene scene = new Scene(layout, 300, 250);
-		window.setScene(scene);
+			// Display the first scene
+		window.setScene(scene1);
 		window.show();
 
 	}

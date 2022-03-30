@@ -1,3 +1,5 @@
+package restaurant_project;
+
 //Class: User
 public class User 
 {

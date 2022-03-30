@@ -1,3 +1,5 @@
+package restaurant_project;
+
 public class Customer extends User
 {
 

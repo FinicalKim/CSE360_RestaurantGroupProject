@@ -90,10 +90,10 @@ public class Main_test extends Application implements EventHandler<ActionEvent>
 		HBox hbBtn = new HBox(10);
 		hbBtn.setAlignment(Pos.BOTTOM_RIGHT);
 		hbBtn.getChildren().add(btn);
-		grid.add(hbBtn, 1, 4);
+		layout2.add(hbBtn, 1, 4);
 		
 		final Text actiontarget = new Text();
-        	grid.add(actiontarget, 1, 6);
+        	layout2.add(actiontarget, 1, 6);
 		
 		btn.setOnAction(e -> {
 		actiontarget.setFill(Color.FIREBRICK);

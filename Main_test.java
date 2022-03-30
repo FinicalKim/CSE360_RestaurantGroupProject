@@ -43,9 +43,9 @@ public class Main_test extends Application implements EventHandler<ActionEvent>
 		Label label1 = new Label("Welcome to the Restaurants application");
 		
 			// Button 1
-		Button button1 = new Button("Go to Account information");
-		button1.setText("Create new User");
-		button1.setOnAction(e -> window.setScene(scene2));	//button 1 sends you to the account information page
+		Button button1 = new Button("Go to sign in menu");
+		button1.setText("Sign in");
+		button1.setOnAction(e -> window.setScene(scene2));	//button 1 sends you to the Sign in page
 		
 			// Layout 1
 		GridPane layout1 = new GridPane();
@@ -62,9 +62,43 @@ public class Main_test extends Application implements EventHandler<ActionEvent>
 		button2.setOnAction(e -> window.setScene(scene1));	// When button 2 is clicked it send you back to the home page
 		
 			// Layout 2
-		StackPane layout2 = new StackPane();
-		layout2.getChildren().add(button2);
-		scene2 = new Scene(layout2, 600,600);
+		GridPane layout2 = new GridPane();
+		layout2.setAlignment(Pos.CENTER);
+		layout2.setHgap(10);
+		layout2.setVgap(10);
+		layout2.setPadding(new Insets(25, 25, 25, 25));
+		layout2.getChildren().addAll(button2);
+		scene2 = new Scene(layout2, 300,300);
+		// Information to sign in on layout 2
+		Text scenetitle = new Text("Welcome");
+		scenetitle.setFont(Font.font("Tahoma", FontWeight.NORMAL, 20));
+		layout2.add(scenetitle, 0, 0, 2, 1);
+
+		Label userName = new Label("User Name:");
+		layout2.add(userName, 0, 1);
+
+		TextField userTextField = new TextField();
+		layout2.add(userTextField, 1, 1);
+
+		Label pw = new Label("Password:");
+		layout2.add(pw, 0, 2);
+
+		PasswordField pwBox = new PasswordField();
+		layout2.add(pwBox, 1, 2);
+		
+		Button btn = new Button("Sign in");
+		HBox hbBtn = new HBox(10);
+		hbBtn.setAlignment(Pos.BOTTOM_RIGHT);
+		hbBtn.getChildren().add(btn);
+		grid.add(hbBtn, 1, 4);
+		
+		final Text actiontarget = new Text();
+        	grid.add(actiontarget, 1, 6);
+		
+		btn.setOnAction(e -> {
+		actiontarget.setFill(Color.FIREBRICK);
+		actiontarget.setText("Sign in button pressed");
+		});
 		
 			// Display the first scene
 		window.setScene(scene1);

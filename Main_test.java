@@ -41,16 +41,20 @@ public class Main_test extends Application implements EventHandler<ActionEvent>
 			//Title the window "Restaurant"
 		window.setTitle("Restaurant");
 		Label label1 = new Label("Welcome to the Restaurants application");
-
+		
 			// Button 1
 		Button button1 = new Button("Go to Account information");
 		button1.setText("Create new User");
 		button1.setOnAction(e -> window.setScene(scene2));	//button 1 sends you to the account information page
 		
 			// Layout 1
-		VBox layout1 = new VBox(20);
+		GridPane layout1 = new GridPane();
+		layout1.setAlignment(Pos.CENTER);
+		layout1.setHgap(10);
+		layout1.setVgap(10);
+		layout1.setPadding(new Insets(25, 25, 25, 25));
 		layout1.getChildren().addAll(label1, button1);
-		scene1 = new Scene(layout1, 200,200);
+		scene1 = new Scene(layout1, 300,300);
 		
 			// Button 2
 		Button button2 = new Button("Go to Home page");

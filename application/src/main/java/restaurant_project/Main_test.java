@@ -26,6 +26,7 @@ import javafx.stage.Stage;
 public class Main_test extends Application implements EventHandler<ActionEvent> {
 	Stage window;
 	Scene scene1, scene2;
+	User newUser;
 
 	public static void main(String[] args) throws IOException {
 
@@ -115,6 +116,9 @@ public class Main_test extends Application implements EventHandler<ActionEvent> 
 		btn.setOnAction(e -> {
 			actiontarget.setFill(Color.FIREBRICK);
 			actiontarget.setText("Sign in button pressed");
+			if (newUser.verifyCredentials()){
+				user.setLoginStatus(true);
+			}
 		});
 
 		// Display the first scene

@@ -62,6 +62,7 @@ public class Main_test extends Application implements EventHandler<ActionEvent> 
 
 		// Sign-In Button
 		Button signInButton = new Button("Sign in");
+		final Text signInButtonActionText = new Text();
 
 		// Create Account Button
 		Button createAccountButton = new Button("Create Account");
@@ -73,7 +74,8 @@ public class Main_test extends Application implements EventHandler<ActionEvent> 
 		greetingPane.setPadding(new Insets(200, 0, -150, 0));
 
 		Label greeting = new Label("Welcome to OrderUp, please sign in to get started!");
-		greeting.setFont(Font.font("Calibri", FontWeight.NORMAL, 20));
+		greeting.setTextFill(Color.CRIMSON);
+		greeting.setFont(Font.font("Calibri", FontWeight.BOLD, 20));
 		greetingPane.getChildren().addAll(greeting);
 
 		// Central Login Area
@@ -92,14 +94,25 @@ public class Main_test extends Application implements EventHandler<ActionEvent> 
 		pwBox.setPrefWidth(150);
 		pwBox.setMaxWidth(150);
 
-		centerVBox.getChildren().addAll(userName, userTextField, pw, pwBox, underButtons);
+		centerVBox.getChildren().addAll(userName, userTextField, pw, pwBox, underButtons, signInButtonActionText);
 		centerVBox.setAlignment(Pos.CENTER);
-
-		//Print text fields input to standard output when clicking on 'signInButton'
-		signInButton.setOnAction(e -> 
+		
+		signInButton.setOnAction(e ->
 		{
-			System.out.println(userTextField.getText());
-			System.out.println(pwBox.getText());
+			System.out.println(currentUser.getUserID());
+			System.out.println(currentUser.getPassword());
+			signInButtonActionText.setFill(Color.FIREBRICK);
+			
+		if (currentUser.verifyCredentials(userTextField.getText(), pwBox.getText()))
+		{	
+			signInButtonActionText.setFill(Color.FORESTGREEN);
+			signInButtonActionText.setText("Successfully verified credentials... logging in!");
+		}
+
+		else
+		{
+			signInButtonActionText.setText("Username and/or password incorrect.");
+		}
 		});
 
 		// Display 'scene1' with the default window size

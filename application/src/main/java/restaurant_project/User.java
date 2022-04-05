@@ -100,7 +100,7 @@ public class User
 	}
 	public boolean verifyCredentials(String userName, String passWord)
 	{
-		if ( (this.userID == userName) && (this.password == passWord) ) 
+		if (this.userID.compareTo(userName) == 0 &&  this.password.compareTo(passWord) == 0) 
 		{
 			return true;
 		}

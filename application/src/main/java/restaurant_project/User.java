@@ -9,7 +9,7 @@ public class User
 	private boolean loginStatus;
 	private String contactName;
 	private String email;
-	private int phoneNumber;
+	private String phoneNumber;
 	
 	//Public Constructor for a User
 	public User(String userID, String password)
@@ -19,7 +19,7 @@ public class User
 		loginStatus = false;
 		contactName = null;
 		email = null;
-		phoneNumber = 0;
+		phoneNumber = null;
 	}
 	
 	//Getter methods for the User class
@@ -48,7 +48,7 @@ public class User
 		return email;
 	}
 	
-	protected int getPhoneNumber()
+	protected String getPhoneNumber()
 	{
 		return phoneNumber;
 	}
@@ -79,7 +79,7 @@ public class User
 		this.email = email;
 	}
 	
-	protected void setPhoneNumber(int phoneNumber)
+	protected void setPhoneNumber(String phoneNumber)
 	{
 		this.phoneNumber = phoneNumber;
 	}

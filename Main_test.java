@@ -100,6 +100,40 @@ public class Main_test extends Application implements EventHandler<ActionEvent>
 		actiontarget.setText("Sign in button pressed");
 		});
 		
+		// Button 3
+		Button button3 = new Button("Go to Checkout page");
+		button3.setText("Checkout");
+		button3.setOnAction(e -> window.setScene(scene3));
+
+		// Layout 3
+		GridPane layout3 = new GridPane();
+		layout3.setAlignment(Pos.CENTER);
+		layout3.setHgap(10);
+		layout3.setVgap(10);
+		layout3.setPadding(new Insets(25, 25, 25, 25));
+		layout3.getChildren().addAll(button3);
+		scene3 = new Scene(layout3, 300,300);
+
+		Label total = new Label("Total: $");
+		layout3.add(total, 0, 1);
+
+		// Button 4
+		Button button4 = new Button("Go to Ingredients page");
+		button4.setText("Ingredients");
+		button4.setOnAction(e -> window.setScene(scene4));
+
+		// Layout 4
+		GridPane layout4 = new GridPane();
+		layout4.setAlignment(Pos.CENTER);
+		layout4.setHgap(10);
+		layout4.setVgap(10);
+		layout4.setPadding(new Insets(25, 25, 25, 25));
+		layout4.getChildren().addAll(button4);
+		scene4 = new Scene(layout4, 300,300);
+
+		Label total = new Label("Breakfast Sandwich: /nBiscuit /nCheese /nEgg /nSausage /nButter");
+		layout4.add(total, 0, 1);
+		
 			// Display the first scene
 		window.setScene(scene1);
 		window.show();

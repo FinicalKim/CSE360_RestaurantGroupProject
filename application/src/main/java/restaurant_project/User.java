@@ -98,10 +98,15 @@ public class User
 			return false;
 		}
 	}
-	public boolean verifyCredentials(String userName, String passWord){
-		if ( (this.userID == userName) && (this.password == passWord) ) {
+	public boolean verifyCredentials(String userName, String passWord)
+	{
+		if ( (this.userID == userName) && (this.password == passWord) ) 
+		{
 			return true;
-		}else{
+		}
+		
+		else
+		{
 			return false;
 		}
 	}

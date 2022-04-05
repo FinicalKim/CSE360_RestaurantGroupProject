@@ -15,8 +15,10 @@ import javafx.scene.control.TextField;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
+import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
 import javafx.scene.text.FontWeight;
+import javafx.scene.text.Text;
 import javafx.stage.Stage;
 
 public class Main_test extends Application implements EventHandler<ActionEvent> {
@@ -27,25 +29,12 @@ public class Main_test extends Application implements EventHandler<ActionEvent> 
 
 		launch(args);
 
-		String inputName = new String();
-		String inputPassword = new String();
-
-		InputStreamReader isr = new InputStreamReader(System.in);
-		BufferedReader stdin = new BufferedReader(isr);
-
-		System.out.println("Hello, let's create a new User.");
-		System.out.print("First, type the username you want the user to have: ");
-		inputName = stdin.readLine();
-		System.out.println("Great, you chose '" + inputName + "' as a name.");
-		System.out.print("Next, choose the password to associate with '" + inputName + "': ");
-		inputPassword = stdin.readLine();
-		User newUser = new User(inputName, inputPassword);
-		System.out
-				.println("'newUser' username is: " + newUser.getUserID() + " with password: " + newUser.getPassword());
-
 	}
 
 	public void start(Stage primaryStage) throws Exception {
+
+		//*TEST VARIABLE FOR USER OBJECT*
+		User currentUser = new User("DEFAULT", "DEFAULT");
 
 		// Display Window Set-Up
 		// ----------------------
@@ -126,6 +115,7 @@ public class Main_test extends Application implements EventHandler<ActionEvent> 
 		VBox createAccountCentralVBox = new VBox();
 		HBox createAccountGreeting = new HBox();
 		HBox underButtons2 = new HBox();
+		HBox underButtons2Text = new HBox();
 
 		createAccountPane.setTop(createAccountGreeting);
 		createAccountPane.setCenter(createAccountCentralVBox);
@@ -150,31 +140,80 @@ public class Main_test extends Application implements EventHandler<ActionEvent> 
 		createAccountGreeting.getChildren().add(accountGreeting);
 
 		// Central Account Creation Area
-		Label usernameInstruct = new Label("Please choose a username");
+		Label usernameInstructLabel = new Label("Please choose a username");
 		TextField userTextField2 = new TextField();
 		userTextField2.setMaxWidth(150);
 
-		Label passwordInstruct = new Label("Please choose a password for your account");
-		PasswordField pw2 = new PasswordField();
-		pw2.setMaxWidth(150);
+		Label passwordInstructLabel = new Label("Please choose a password for your account");
+		PasswordField pwField2 = new PasswordField();
+		pwField2.setMaxWidth(150);
 
-		Label contactName = new Label("Please enter your first and last name");
+		Label contactNameLabel = new Label("Please enter your first and last name");
 		TextField contactNameField = new TextField();
 		contactNameField.setMaxWidth(150);
 
-		Label emailAddress = new Label("Please enter a contact email");
+		Label emailAddressLabel = new Label("Please enter a contact email");
 		TextField emailAddressField = new TextField();
 		emailAddressField.setMaxWidth(150);
 
-		Label phoneNumber = new Label("Please enter your phone-number");
+		Label phoneNumberLabel = new Label("Please enter your phone-number");
 		TextField phoneNumberField = new TextField();
 		phoneNumberField.setMaxWidth(150);
 
-		createAccountCentralVBox.getChildren().addAll(usernameInstruct, userTextField2, passwordInstruct, pw2,
-				contactName, contactNameField,
-				emailAddress, emailAddressField, phoneNumber, phoneNumberField,underButtons2);
+		final Text actiontarget = new Text();
+		actiontarget.setFill(Color.FIREBRICK);
+		underButtons2Text.getChildren().add(actiontarget);
+		underButtons2Text.setAlignment(Pos.CENTER);
+
+		createAccountCentralVBox.getChildren().addAll(usernameInstructLabel, userTextField2, passwordInstructLabel, pwField2,
+				contactNameLabel, contactNameField,
+				emailAddressLabel, emailAddressField, phoneNumberLabel, phoneNumberField,underButtons2, actiontarget);
 
 		createAccountCentralVBox.setAlignment(Pos.CENTER);
+		
+		// Sets the action of Submit button to create a new User object with the information input into the text fields on the
+		// 'Account Creation' page
+		submitButton.setOnAction(e -> 
+		{	
+
+
+			// Check for empty fields
+			if (userTextField2.getText().isEmpty() || pwField2.getText().isEmpty() || contactNameField.getText().isEmpty() ||
+			emailAddressField.getText().isEmpty() || phoneNumberField.getText().isEmpty())
+			{
+				actiontarget.setFill(Color.FIREBRICK);
+				actiontarget.setText("You left a field empty.");
+			}
+
+			// Set 'currentUser' attributes to String value inputs
+			else if (currentUser.getUserID() == "DEFAULT" && currentUser.getPassword() == "DEFAULT")
+			{	
+				// Set attributes
+				currentUser.setUserID(userTextField2.getText());
+				currentUser.setPassword(pwField2.getText());
+				currentUser.setContactName(contactNameField.getText());
+				currentUser.setEmail(emailAddressField.getText());
+				currentUser.setPhoneNumber(phoneNumberField.getText());
+
+				// Clear out the text fields
+				userTextField2.clear();
+				pwField2.clear();
+				contactNameField.clear();
+				emailAddressField.clear();
+				phoneNumberField.clear();
+
+				// Display success message
+				actiontarget.setFill(Color.FORESTGREEN);
+				actiontarget.setText("Account Successfully created!");
+			}
+
+			else
+			{
+				System.out.println("User already created.");
+				System.out.println("currentUser has userID: " + currentUser.getUserID());
+			}
+		
+		});
 
 		scene2 = new Scene(createAccountPane, defaultWindowWidth, defaultWindowHeight);
 

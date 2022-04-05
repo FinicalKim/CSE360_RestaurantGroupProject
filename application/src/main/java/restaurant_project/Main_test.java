@@ -1,7 +1,11 @@
 package restaurant_project;
 
 import java.io.*;
-
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import javafx.scene.Group;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import javafx.application.Application;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
@@ -13,6 +17,7 @@ import javafx.scene.control.Label;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.BorderPane;
+import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
@@ -31,7 +36,7 @@ public class Main_test extends Application implements EventHandler<ActionEvent> 
 
 	}
 
-	public void start(Stage primaryStage) throws Exception {
+	public void start(Stage primaryStage) throws Exception, InterruptedException {
 
 		//*TEST VARIABLE FOR USER OBJECT*
 		User currentUser = new User("DEFAULT", "DEFAULT");
@@ -48,7 +53,7 @@ public class Main_test extends Application implements EventHandler<ActionEvent> 
 
 		// ---------------------------------------------------
 
-		// Scene 1
+		// Scene 1 - Sign In Page
 		// ---------------
 
 		// Panes
@@ -99,14 +104,14 @@ public class Main_test extends Application implements EventHandler<ActionEvent> 
 		
 		signInButton.setOnAction(e ->
 		{
-			System.out.println(currentUser.getUserID());
-			System.out.println(currentUser.getPassword());
 			signInButtonActionText.setFill(Color.FIREBRICK);
 			
 		if (currentUser.verifyCredentials(userTextField.getText(), pwBox.getText()))
-		{	
-			signInButtonActionText.setFill(Color.FORESTGREEN);
+		{
+			signInButtonActionText.setFill(Color.FORESTGREEN);	
 			signInButtonActionText.setText("Successfully verified credentials... logging in!");
+			currentUser.setLoginStatus(true);
+			window.setScene(scene3);
 		}
 
 		else
@@ -119,8 +124,9 @@ public class Main_test extends Application implements EventHandler<ActionEvent> 
 		scene1 = new Scene(signInPane, defaultWindowWidth, defaultWindowHeight);
 
 		// End Scene 1
+		// ----------------------------
 
-		// Scene 2
+		// Scene 2 - Create Account Page
 		// -----------------
 
 		// Panes
@@ -231,9 +237,38 @@ public class Main_test extends Application implements EventHandler<ActionEvent> 
 		scene2 = new Scene(createAccountPane, defaultWindowWidth, defaultWindowHeight);
 
 		// End Scene 2
+		// -----------------------
 
-		/*
-		// Scene 3
+		// Scene 3 - Menu Page
+		// -------------------
+
+		BorderPane menuPane = new BorderPane();
+		VBox menuVBoxPane = new VBox();
+
+		Label biscuitLabel = new Label("Biscuit");
+		Label cheeseLabel = new Label("Cheese");
+		Label eggLabel = new Label("Egg");
+		Label sausageLabel = new Label("Sausage");
+		Label butterLabel = new Label("Butter");
+		//menuVBoxPane.getChildren().addAll(biscuitLabel, cheeseLabel, eggLabel, sausageLabel, butterLabel);
+		//menuVBoxPane.setAlignment(Pos.CENTER);
+		menuPane.setCenter(menuVBoxPane);
+
+		// Load images
+		Image biscuitImg = new Image(new FileInputStream("C:\\Users\\tyler\\OneDrive\\Desktop\\School Stuff\\CSE360_RestaurantGroupProject\\application\\src\\main\\resources\\Images\\4-2-biscuit-transparent.png"));
+		ImageView biscuitImgV = new ImageView();
+		biscuitImgV.setImage(biscuitImg);
+		biscuitImgV.setFitWidth(100);
+		biscuitImgV.setPreserveRatio(true);
+		biscuitImgV.setSmooth(true);
+		biscuitImgV.setCache(true);
+		
+		menuVBoxPane.getChildren().addAll(biscuitImgV);
+		
+
+		scene3 = new Scene(menuPane, defaultWindowWidth, defaultWindowHeight);
+
+		// Scene 4
 		// ----------
 
 		// Panes
@@ -243,8 +278,8 @@ public class Main_test extends Application implements EventHandler<ActionEvent> 
 		layout3.setHgap(10);
 		layout3.setVgap(10);
 		layout3.setPadding(new Insets(25, 25, 25, 25));
-		layout3.getChildren().addAll(button3);
-		scene3 = new Scene(layout3, 300,300);
+		//layout3.getChildren().addAll(button3);
+		//scene3 = new Scene(layout3, 300,300);
 		
 		Label total = new Label("Total: $");
 		layout3.add(total, 0, 1);
@@ -254,19 +289,18 @@ public class Main_test extends Application implements EventHandler<ActionEvent> 
 		button4.setText("Ingredients");
 		button4.setOnAction(e -> window.setScene(scene4));
 		
-		// Layout 4
+		// Layout 5
 		GridPane layout4 = new GridPane();
 		layout4.setAlignment(Pos.CENTER);
 		layout4.setHgap(10);
 		layout4.setVgap(10);
 		layout4.setPadding(new Insets(25, 25, 25, 25));
 		layout4.getChildren().addAll(button4);
-		scene4 = new Scene(layout4, 300,300);
+		//scene4 = new Scene(layout4, 300,300);
 	
-		Label total = new
-		Label("Breakfast Sandwich: /nBiscuit /nCheese /nEgg /nSausage /nButter");
+		//Label total = new
+		//Label("Breakfast Sandwich: /nBiscuit /nCheese /nEgg /nSausage /nButter");
 		layout4.add(total, 0, 1);
-		*/
 
 		// Display the first scene at program launch
 		window.setScene(scene1);

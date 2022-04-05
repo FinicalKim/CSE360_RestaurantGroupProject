@@ -13,9 +13,8 @@ import javafx.scene.control.Label;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.BorderPane;
-import javafx.scene.layout.GridPane;
+import javafx.scene.layout.FlowPane;
 import javafx.scene.layout.HBox;
-import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
@@ -52,12 +51,14 @@ public class Main_test extends Application implements EventHandler<ActionEvent> 
 
 	public void start(Stage primaryStage) throws Exception {
 
-		window = primaryStage; // variable to reference the applications window
+		window = primaryStage; //main display window
+		window.setMaximized(true); //set the application to open in full-screen mode
 
-		// Title the window "Restaurant"
-		window.setTitle("Restaurant");
+		// Title the window "OrderUp"
+		window.setTitle("OrderUp");
 
-		Label label1 = new Label("Welcome to the Restaurants application");
+		/*
+		Label label1 = new Label("Welcome to OrderUp, please sign in to get started!");
 
 		// Button 1
 		Button signInButton = new Button("Go to sign in menu");
@@ -66,63 +67,82 @@ public class Main_test extends Application implements EventHandler<ActionEvent> 
 
 		// Layout 1
 		BorderPane mainBorderPane = new BorderPane(); //the main Pane on which other panes can be drawn
-		GridPane buttonPane = new GridPane();
+		mainBorderPane.setCenter(signInButton);
+		BorderPane.setAlignment(signInButton, Pos.CENTER);
 		mainBorderPane.setTop(label1);
-		mainBorderPane.setAlignment(label1, Pos.CENTER);
-		mainBorderPane.setCenter(buttonPane);
-		mainBorderPane.setAlignment(signInButton, Pos.CENTER);
-		buttonPane.getChildren().addAll(signInButton);
+		BorderPane.setAlignment(label1, Pos.CENTER);
+		mainBorderPane.setPadding(new Insets(15,12,15,12));
+
 		scene1 = new Scene(mainBorderPane, 300, 300);
+		*/
+//-------------------------------------------------------------------
 
-		// Button 2
-		Button button2 = new Button("Go to Home page");
-		button2.setText("Go back to main menu");
-		button2.setOnAction(e -> window.setScene(scene1)); // When button 2 is clicked it send you back to the home page
+		// Layout 2 - Scene 2
+		BorderPane signInPane = new BorderPane(); //the sign-in page pane
+		HBox greetingPane = new HBox();
+		greetingPane.setAlignment(Pos.CENTER);
+		HBox bottomButtons = new HBox();
+		VBox centerVBox = new VBox();
 
-		// Layout 2
-		GridPane layout2 = new GridPane();
-		layout2.setAlignment(Pos.CENTER);
-		layout2.setHgap(10);
-		layout2.setVgap(10);
-		layout2.setPadding(new Insets(25, 25, 25, 25));
-		layout2.getChildren().addAll(button2);
-		scene2 = new Scene(layout2, 300, 300);
-		// Information to sign in on layout 2
-		Text scenetitle = new Text("Welcome");
-		scenetitle.setFont(Font.font("Tahoma", FontWeight.NORMAL, 20));
-		layout2.add(scenetitle, 0, 1, 2, 1);
+		FlowPane centerFlowPane = new FlowPane();
+		centerFlowPane.setPadding(new Insets(5,5,5,5));
+		centerFlowPane.setVgap(4);
+
+		Label greeting = new Label("Welcome to OrderUp, please sign in to get started!");
+		greeting.setFont(Font.font("Calibri", FontWeight.NORMAL, 20));
 
 		Label userName = new Label("User Name:");
-		layout2.add(userName, 0, 1);
+		Label pw = new Label("Password:");
 
 		TextField userTextField = new TextField();
-		layout2.add(userTextField, 1, 1);
-
-		Label pw = new Label("Password:");
-		layout2.add(pw, 0, 2);
+		userTextField.setPrefWidth(150);
+		userTextField.setMaxWidth(150);
 
 		PasswordField pwBox = new PasswordField();
-		layout2.add(pwBox, 1, 2);
+		pwBox.setPrefWidth(150);
+		pwBox.setMaxWidth(150);
 
-		Button btn = new Button("Sign in");
-		HBox hbBtn = new HBox(10);
-		hbBtn.setAlignment(Pos.BOTTOM_RIGHT);
-		hbBtn.getChildren().add(btn);
-		layout2.add(hbBtn, 1, 4);
+		//Sign-In Button 2
+		Button signInButton2 = new Button("Sign in");
+
+		//Main-Menu Button
+		Button mainMenuButton = new Button("Go to Home page");
+		mainMenuButton.setText("Go back to main menu");
+		mainMenuButton.setOnAction(e -> window.setScene(scene1)); // When button 2 is clicked it send you back to the home page
+		signInPane.getChildren().addAll(mainMenuButton, signInButton2);
+
+		//Node alignment and display settings for 'signInPane'
+		greetingPane.getChildren().addAll(greeting);
+		signInPane.setTop(greetingPane);
+		signInPane.setCenter(centerVBox);
+		signInPane.setBottom(bottomButtons);
+
+		//Node alignment and display settings for 'centerVBox'
+		centerVBox.getChildren().addAll(userName, userTextField, pw, pwBox);
+		centerVBox.setAlignment(Pos.CENTER);
+
+		scene2 = new Scene(signInPane, 300, 300);
+
+		// Information to sign in on layout 2
+		bottomButtons.setAlignment(Pos.BOTTOM_CENTER);
+		bottomButtons.getChildren().add(signInButton2);
 
 		final Text actiontarget = new Text();
-		layout2.add(actiontarget, 1, 6);
 
-		btn.setOnAction(e -> {
+		signInButton2.setOnAction(e -> 
+		{
+
 			actiontarget.setFill(Color.FIREBRICK);
 			actiontarget.setText("Sign in button pressed");
-			if (newUser.verifyCredentials()){
-				user.setLoginStatus(true);
+
+			if (newUser.verifyCredentials(newUser.getUserID(), newUser.getPassword()))
+			{
+				newUser.setLoginStatus(true);
 			}
 		});
 
-		// Display the first scene
-		window.setScene(scene1);
+		// Display the first scene at program launch
+		window.setScene(scene2);
 		window.show();
 
 	}

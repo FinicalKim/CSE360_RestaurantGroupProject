@@ -3,7 +3,6 @@ package restaurant_project;
 import java.io.*;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
-import javafx.scene.Group;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.application.Application;
@@ -245,11 +244,11 @@ public class Main_test extends Application implements EventHandler<ActionEvent> 
 		BorderPane menuPane = new BorderPane();
 		VBox menuVBoxPane = new VBox();
 
-		Label biscuitLabel = new Label("Biscuit");
-		Label cheeseLabel = new Label("Cheese");
-		Label eggLabel = new Label("Egg");
-		Label sausageLabel = new Label("Sausage");
-		Label butterLabel = new Label("Butter");
+		//Label biscuitLabel = new Label("Biscuit");
+		// Label cheeseLabel = new Label("Cheese");
+		// Label eggLabel = new Label("Egg");
+		// Label sausageLabel = new Label("Sausage");
+		// Label butterLabel = new Label("Butter");
 		//menuVBoxPane.getChildren().addAll(biscuitLabel, cheeseLabel, eggLabel, sausageLabel, butterLabel);
 		//menuVBoxPane.setAlignment(Pos.CENTER);
 		menuPane.setCenter(menuVBoxPane);
@@ -258,12 +257,36 @@ public class Main_test extends Application implements EventHandler<ActionEvent> 
 		Image biscuitImg = new Image(new FileInputStream("C:\\Users\\tyler\\OneDrive\\Desktop\\School Stuff\\CSE360_RestaurantGroupProject\\application\\src\\main\\resources\\Images\\4-2-biscuit-transparent.png"));
 		ImageView biscuitImgV = new ImageView();
 		biscuitImgV.setImage(biscuitImg);
-		biscuitImgV.setFitWidth(100);
+		biscuitImgV.setFitWidth(75);
 		biscuitImgV.setPreserveRatio(true);
 		biscuitImgV.setSmooth(true);
 		biscuitImgV.setCache(true);
 		
-		menuVBoxPane.getChildren().addAll(biscuitImgV);
+		Image cheeseImg = new Image(new FileInputStream("C:\\Users\\tyler\\OneDrive\\Desktop\\School Stuff\\CSE360_RestaurantGroupProject\\application\\src\\main\\resources\\Images\\11-cheese-sliced-png-image.png"));
+		ImageView cheeseImgV = new ImageView();
+		cheeseImgV.setImage(cheeseImg);
+		cheeseImgV.setFitWidth(75);
+		cheeseImgV.setPreserveRatio(true);
+		cheeseImgV.setSmooth(true);
+		cheeseImgV.setCache(true);
+
+		Image eggImg = new Image(new FileInputStream("C:\\Users\\tyler\\OneDrive\\Desktop\\School Stuff\\CSE360_RestaurantGroupProject\\application\\src\\main\\resources\\Images\\purepng.com-fried-eggfood-egg-cooking-eating-breakfast-fried-white-yolk-protein-941524632335wlndl.png"));
+		ImageView eggImgV = new ImageView();
+		eggImgV.setImage(eggImg);
+		eggImgV.setFitWidth(75);
+		eggImgV.setPreserveRatio(true);
+		eggImgV.setSmooth(true);
+		eggImgV.setCache(true);
+
+		Image sausageImg = new Image(new FileInputStream("C:\\Users\\tyler\\OneDrive\\Desktop\\School Stuff\\CSE360_RestaurantGroupProject\\application\\src\\main\\resources\\Images\\71-714077_cooked-sausage-png-transparent-png.png"));
+		ImageView sausageImgV = new ImageView();
+		sausageImgV.setImage(sausageImg);
+		sausageImgV.setFitWidth(75);
+		sausageImgV.setPreserveRatio(true);
+		sausageImgV.setSmooth(true);
+		sausageImgV.setCache(true);
+
+		menuVBoxPane.getChildren().addAll(biscuitImgV, cheeseImgV, eggImgV, sausageImgV);
 		
 
 		scene3 = new Scene(menuPane, defaultWindowWidth, defaultWindowHeight);

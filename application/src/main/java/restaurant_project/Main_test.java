@@ -37,7 +37,7 @@ public class Main_test extends Application implements EventHandler<ActionEvent> 
 
 	public void start(Stage primaryStage) throws Exception, InterruptedException {
 
-		//*TEST VARIABLE FOR USER OBJECT*
+		// *DEBUG AND TESTING VARIABLE FOR NOW*
 		User currentUser = new User("DEFAULT", "DEFAULT");
 
 		// Display Window Set-Up
@@ -100,23 +100,20 @@ public class Main_test extends Application implements EventHandler<ActionEvent> 
 
 		centerVBox.getChildren().addAll(userName, userTextField, pw, pwBox, underButtons, signInButtonActionText);
 		centerVBox.setAlignment(Pos.CENTER);
-		
-		signInButton.setOnAction(e ->
-		{
-			signInButtonActionText.setFill(Color.FIREBRICK);
-			
-		if (currentUser.verifyCredentials(userTextField.getText(), pwBox.getText()))
-		{
-			signInButtonActionText.setFill(Color.FORESTGREEN);	
-			signInButtonActionText.setText("Successfully verified credentials... logging in!");
-			currentUser.setLoginStatus(true);
-			window.setScene(scene3);
-		}
 
-		else
-		{
-			signInButtonActionText.setText("Username and/or password incorrect.");
-		}
+		signInButton.setOnAction(e -> {
+			signInButtonActionText.setFill(Color.FIREBRICK);
+
+			if (currentUser.verifyCredentials(userTextField.getText(), pwBox.getText())) {
+				signInButtonActionText.setFill(Color.FORESTGREEN);
+				signInButtonActionText.setText("Successfully verified credentials... logging in!");
+				currentUser.setLoginStatus(true);
+				window.setScene(scene3);
+			}
+
+			else {
+				signInButtonActionText.setText("Username and/or password incorrect.");
+			}
 		});
 
 		// Display 'scene1' with the default window size
@@ -129,7 +126,7 @@ public class Main_test extends Application implements EventHandler<ActionEvent> 
 		// -----------------
 
 		// Panes
-		BorderPane createAccountPane = new BorderPane(); //Main pane for 'scene2'
+		BorderPane createAccountPane = new BorderPane(); // Main pane for 'scene2'
 		VBox createAccountCentralVBox = new VBox();
 		HBox createAccountGreeting = new HBox();
 		HBox underButtons2 = new HBox();
@@ -141,14 +138,14 @@ public class Main_test extends Application implements EventHandler<ActionEvent> 
 		// Submit Button
 		Button submitButton = new Button("Submit");
 
-		// Main-Menu Button
-		Button mainMenuButton = new Button("Main Menu");
-		mainMenuButton.setOnAction(e -> window.setScene(scene1));
+		// Back Button
+		Button backButton = new Button("Back");
+		backButton.setOnAction(e -> window.setScene(scene1));
 
-		underButtons2.getChildren().addAll(submitButton, mainMenuButton);
+		underButtons2.getChildren().addAll(submitButton, backButton);
 		underButtons2.setSpacing(10);
 		underButtons2.setAlignment(Pos.CENTER);
-		underButtons2.setPadding(new Insets(20,0,0,0));
+		underButtons2.setPadding(new Insets(20, 0, 0, 0));
 
 		// Header/Greeting Area
 		createAccountGreeting.setAlignment(Pos.CENTER);
@@ -183,29 +180,28 @@ public class Main_test extends Application implements EventHandler<ActionEvent> 
 		underButtons2Text.getChildren().add(actiontarget);
 		underButtons2Text.setAlignment(Pos.CENTER);
 
-		createAccountCentralVBox.getChildren().addAll(usernameInstructLabel, userTextField2, passwordInstructLabel, pwField2,
+		createAccountCentralVBox.getChildren().addAll(usernameInstructLabel, userTextField2, passwordInstructLabel,
+				pwField2,
 				contactNameLabel, contactNameField,
-				emailAddressLabel, emailAddressField, phoneNumberLabel, phoneNumberField,underButtons2, actiontarget);
+				emailAddressLabel, emailAddressField, phoneNumberLabel, phoneNumberField, underButtons2, actiontarget);
 
 		createAccountCentralVBox.setAlignment(Pos.CENTER);
-		
-		// Sets the action of Submit button to create a new User object with the information input into the text fields on the
-		// 'Account Creation' page
-		submitButton.setOnAction(e -> 
-		{	
 
+		// Sets the action of Submit button to create a new User object with the
+		// information input into the text fields on the
+		// 'Account Creation' page
+		submitButton.setOnAction(e -> {
 
 			// Check for empty fields
-			if (userTextField2.getText().isEmpty() || pwField2.getText().isEmpty() || contactNameField.getText().isEmpty() ||
-			emailAddressField.getText().isEmpty() || phoneNumberField.getText().isEmpty())
-			{
+			if (userTextField2.getText().isEmpty() || pwField2.getText().isEmpty()
+					|| contactNameField.getText().isEmpty() ||
+					emailAddressField.getText().isEmpty() || phoneNumberField.getText().isEmpty()) {
 				actiontarget.setFill(Color.FIREBRICK);
 				actiontarget.setText("You left a field empty.");
 			}
 
 			// Set 'currentUser' attributes to String value inputs
-			else if (currentUser.getUserID() == "DEFAULT" && currentUser.getPassword() == "DEFAULT")
-			{	
+			else if (currentUser.getUserID() == "DEFAULT" && currentUser.getPassword() == "DEFAULT") {
 				// Set attributes
 				currentUser.setUserID(userTextField2.getText());
 				currentUser.setPassword(pwField2.getText());
@@ -225,12 +221,11 @@ public class Main_test extends Application implements EventHandler<ActionEvent> 
 				actiontarget.setText("Account Successfully created!");
 			}
 
-			else
-			{
+			else {
 				System.out.println("User already created.");
 				System.out.println("currentUser has userID: " + currentUser.getUserID());
 			}
-		
+
 		});
 
 		scene2 = new Scene(createAccountPane, defaultWindowWidth, defaultWindowHeight);
@@ -241,28 +236,48 @@ public class Main_test extends Application implements EventHandler<ActionEvent> 
 		// Scene 3 - Menu Page
 		// -------------------
 
-		BorderPane menuPane = new BorderPane();
-		VBox menuVBoxPane = new VBox();
+		// Panes
+		GridPane menuGridPane_Left = new GridPane();
+		menuGridPane_Left.setAlignment(Pos.CENTER);
+		menuGridPane_Left.setGridLinesVisible(false); // set 'true' to see grid-lines
+		menuGridPane_Left.setHgap(10);
+		menuGridPane_Left.setVgap(10);
+		menuGridPane_Left.setPadding(new Insets(0, 10, 0, 10));
 
-		//Label biscuitLabel = new Label("Biscuit");
-		// Label cheeseLabel = new Label("Cheese");
-		// Label eggLabel = new Label("Egg");
-		// Label sausageLabel = new Label("Sausage");
-		// Label butterLabel = new Label("Butter");
-		//menuVBoxPane.getChildren().addAll(biscuitLabel, cheeseLabel, eggLabel, sausageLabel, butterLabel);
-		//menuVBoxPane.setAlignment(Pos.CENTER);
-		menuPane.setCenter(menuVBoxPane);
+		// Header/Greeting
+		HBox bannerBox = new HBox();
+		bannerBox.setAlignment(Pos.CENTER);
+		bannerBox.setPadding(new Insets(0, 0, -125, 0));
+
+		Label menuHeader = new Label("Food Menu");
+		menuHeader.setTextFill(Color.DARKOLIVEGREEN);
+		menuHeader.setFont(Font.font("Calibri", FontWeight.EXTRA_BOLD, 50));
+		menuHeader.setUnderline(true);
+		bannerBox.getChildren().add(menuHeader);
+
+		// Main Pane
+		BorderPane menuPane = new BorderPane();
+		menuPane.setLeft(menuGridPane_Left);
+		menuPane.setTop(bannerBox);
+
+		Label biscuitLabel = new Label("Biscuit\n$1.99");
+		Label cheeseLabel = new Label("Cheese\n$0.99");
+		Label eggLabel = new Label("Egg\n$1.39");
+		Label sausageLabel = new Label("Sausage\n$2.25");
+		Label butterLabel = new Label("Butter\n$0.15");
 
 		// Load images
-		Image biscuitImg = new Image(new FileInputStream("C:\\Users\\tyler\\OneDrive\\Desktop\\School Stuff\\CSE360_RestaurantGroupProject\\application\\src\\main\\resources\\Images\\4-2-biscuit-transparent.png"));
+		Image biscuitImg = new Image(
+				new FileInputStream("application\\src\\main\\resources\\Images\\4-2-biscuit-transparent.png"));
 		ImageView biscuitImgV = new ImageView();
 		biscuitImgV.setImage(biscuitImg);
 		biscuitImgV.setFitWidth(75);
 		biscuitImgV.setPreserveRatio(true);
 		biscuitImgV.setSmooth(true);
 		biscuitImgV.setCache(true);
-		
-		Image cheeseImg = new Image(new FileInputStream("C:\\Users\\tyler\\OneDrive\\Desktop\\School Stuff\\CSE360_RestaurantGroupProject\\application\\src\\main\\resources\\Images\\11-cheese-sliced-png-image.png"));
+
+		Image cheeseImg = new Image(
+				new FileInputStream("application\\src\\main\\resources\\Images\\11-cheese-sliced-png-image.png"));
 		ImageView cheeseImgV = new ImageView();
 		cheeseImgV.setImage(cheeseImg);
 		cheeseImgV.setFitWidth(75);
@@ -270,7 +285,8 @@ public class Main_test extends Application implements EventHandler<ActionEvent> 
 		cheeseImgV.setSmooth(true);
 		cheeseImgV.setCache(true);
 
-		Image eggImg = new Image(new FileInputStream("C:\\Users\\tyler\\OneDrive\\Desktop\\School Stuff\\CSE360_RestaurantGroupProject\\application\\src\\main\\resources\\Images\\purepng.com-fried-eggfood-egg-cooking-eating-breakfast-fried-white-yolk-protein-941524632335wlndl.png"));
+		Image eggImg = new Image(new FileInputStream(
+				"application\\src\\main\\resources\\Images\\purepng.com-fried-eggfood-egg-cooking-eating-breakfast-fried-white-yolk-protein-941524632335wlndl.png"));
 		ImageView eggImgV = new ImageView();
 		eggImgV.setImage(eggImg);
 		eggImgV.setFitWidth(75);
@@ -278,7 +294,8 @@ public class Main_test extends Application implements EventHandler<ActionEvent> 
 		eggImgV.setSmooth(true);
 		eggImgV.setCache(true);
 
-		Image sausageImg = new Image(new FileInputStream("C:\\Users\\tyler\\OneDrive\\Desktop\\School Stuff\\CSE360_RestaurantGroupProject\\application\\src\\main\\resources\\Images\\71-714077_cooked-sausage-png-transparent-png.png"));
+		Image sausageImg = new Image(new FileInputStream(
+				"application\\src\\main\\resources\\Images\\71-714077_cooked-sausage-png-transparent-png.png"));
 		ImageView sausageImgV = new ImageView();
 		sausageImgV.setImage(sausageImg);
 		sausageImgV.setFitWidth(75);
@@ -286,10 +303,19 @@ public class Main_test extends Application implements EventHandler<ActionEvent> 
 		sausageImgV.setSmooth(true);
 		sausageImgV.setCache(true);
 
-		menuVBoxPane.getChildren().addAll(biscuitImgV, cheeseImgV, eggImgV, sausageImgV);
-		
+		// Add all of the images/labels to the grid-pane for display
+		menuGridPane_Left.add(biscuitImgV, 0, 0);
+		menuGridPane_Left.add(biscuitLabel, 1, 0);
+		menuGridPane_Left.add(cheeseImgV, 0, 1);
+		menuGridPane_Left.add(cheeseLabel, 1, 1);
+		menuGridPane_Left.add(eggImgV, 0, 2);
+		menuGridPane_Left.add(eggLabel, 1, 2);
+		menuGridPane_Left.add(sausageImgV, 0, 3);
+		menuGridPane_Left.add(sausageLabel, 1, 3);
 
 		scene3 = new Scene(menuPane, defaultWindowWidth, defaultWindowHeight);
+
+		// End Scene 3
 
 		// Scene 4
 		// ----------
@@ -301,17 +327,17 @@ public class Main_test extends Application implements EventHandler<ActionEvent> 
 		layout3.setHgap(10);
 		layout3.setVgap(10);
 		layout3.setPadding(new Insets(25, 25, 25, 25));
-		//layout3.getChildren().addAll(button3);
-		//scene3 = new Scene(layout3, 300,300);
-		
+		// layout3.getChildren().addAll(button3);
+		// scene3 = new Scene(layout3, 300,300);
+
 		Label total = new Label("Total: $");
 		layout3.add(total, 0, 1);
-		
+
 		// Button 4
 		Button button4 = new Button("Go to Ingredients page");
 		button4.setText("Ingredients");
 		button4.setOnAction(e -> window.setScene(scene4));
-		
+
 		// Layout 5
 		GridPane layout4 = new GridPane();
 		layout4.setAlignment(Pos.CENTER);
@@ -319,10 +345,10 @@ public class Main_test extends Application implements EventHandler<ActionEvent> 
 		layout4.setVgap(10);
 		layout4.setPadding(new Insets(25, 25, 25, 25));
 		layout4.getChildren().addAll(button4);
-		//scene4 = new Scene(layout4, 300,300);
-	
-		//Label total = new
-		//Label("Breakfast Sandwich: /nBiscuit /nCheese /nEgg /nSausage /nButter");
+		// scene4 = new Scene(layout4, 300,300);
+
+		// Label total = new
+		// Label("Breakfast Sandwich: /nBiscuit /nCheese /nEgg /nSausage /nButter");
 		layout4.add(total, 0, 1);
 
 		// Display the first scene at program launch

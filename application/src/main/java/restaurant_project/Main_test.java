@@ -87,7 +87,7 @@ public class Main_test extends Application implements EventHandler<ActionEvent> 
 		greetingPane.setMaxWidth(700);;
 		VBox centerVBox = new VBox(); // pane to hold the username and password labels and text fields
 		centerVBox.setMaxSize(350, 250);
-		setBorder(centerVBox);
+		setAnimatedBorder(centerVBox);
 		centerVBox.setStyle("-fx-background-color: rgba(0, 100, 100, 0.5); -fx-background-radius: 10;"); //'rgba' value with 'alpha' set to 0.5 for transparency
 		HBox underButtons = new HBox(); // pane to hold buttons displayed underneath text fields
 		
@@ -453,7 +453,7 @@ public class Main_test extends Application implements EventHandler<ActionEvent> 
 
 	// Method 'setBorder()':  This method will cycle through a series of colors and uses javafx libraries to create an animated border
 	// effect.  Currently implemented only for 'VBox' panes, but can be changed if needed.
-	private void setBorder(VBox centerVBox) {
+	private void setAnimatedBorder(VBox centerVBox) {
 		Color[] colors = Stream.of("darkorange", "tomato", "deeppink", "blueviolet", "steelblue", "cornflowerblue", "lightseagreen", "#6fba82", "chartreuse", "crimson")
 			.map(Color::web)
 			.toArray(Color[]::new);

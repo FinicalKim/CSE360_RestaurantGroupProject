@@ -50,7 +50,7 @@ public class Main_test extends Application implements EventHandler<ActionEvent> 
 	public void start(Stage primaryStage) throws Exception, InterruptedException {
 
 		// *DEBUG AND TESTING VARIABLE FOR NOW*
-		User currentUser = new User("DEFAULT", "DEFAULT");
+		User currentUser = new User("d", "d");
 
 		// Display Window Set-Up
 		// ----------------------
@@ -142,6 +142,8 @@ public class Main_test extends Application implements EventHandler<ActionEvent> 
 			if (currentUser.verifyCredentials(userTextField.getText(), pwBox.getText())) {
 				signInButtonActionText.setFill(Color.FORESTGREEN);
 				signInButtonActionText.setText("Successfully verified credentials... logging in!");
+				userTextField.clear();
+				pwBox.clear();
 				currentUser.setLoginStatus(true);
 				window.setScene(scene3);
 			}
@@ -288,7 +290,7 @@ public class Main_test extends Application implements EventHandler<ActionEvent> 
 		// Panes
 		GridPane menuGridPane_Left = new GridPane();
 		menuGridPane_Left.setAlignment(Pos.CENTER);
-		menuGridPane_Left.setGridLinesVisible(false); // set 'true' to see grid-lines
+		menuGridPane_Left.setGridLinesVisible(true); // set 'true' to see grid-lines
 		menuGridPane_Left.setHgap(10);
 		menuGridPane_Left.setVgap(10);
 		menuGridPane_Left.setPadding(new Insets(0, 10, 0, 10));
@@ -298,12 +300,29 @@ public class Main_test extends Application implements EventHandler<ActionEvent> 
 		bannerBox.setAlignment(Pos.CENTER);
 		bannerBox.setPadding(new Insets(0, 0, -125, 0));
 
+		//Navigation Buttons
+		HBox headerButtons = new HBox();
+		headerButtons.setAlignment(Pos.TOP_RIGHT);
+		headerButtons.setPadding(new Insets(10,-500,0,500));
+		Button signOutButton = new Button("Sign-Out");
+		signOutButton.setOnAction(e -> 
+		{
+			window.setScene(scene1);
+			currentUser.setLoginStatus(false);
+			signInButtonActionText.setText("");
+
+		});
+
+		Button accountButton = new Button("Account");
+		Button cartButton = new Button("Cart");
+		headerButtons.getChildren().addAll(signOutButton, accountButton, cartButton);
+
 		Label menuHeader = new Label("Food Menu");
 		menuHeader.setTextFill(Color.DARKOLIVEGREEN);
 		menuHeader.setFont(Font.font("Calibri", FontWeight.EXTRA_BOLD, 50));
 		menuHeader.setUnderline(true);
-		bannerBox.getChildren().add(menuHeader);
-		//comment
+		bannerBox.getChildren().addAll(menuHeader, headerButtons);
+
 		// Main Pane
 		BorderPane menuPane = new BorderPane();
 		menuPane.setLeft(menuGridPane_Left);

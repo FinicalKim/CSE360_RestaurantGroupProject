@@ -49,7 +49,7 @@ import javafx.stage.Stage;
 
 public class Main_test extends Application implements EventHandler<ActionEvent> {
 	Stage window;
-	Scene scene1, scene2, scene3, scene4;
+	Scene scene1, scene2, scene3, scene4, scene5, scene6;
 
 	public static void main(String[] args) throws IOException {
 
@@ -60,7 +60,7 @@ public class Main_test extends Application implements EventHandler<ActionEvent> 
 	public void start(Stage primaryStage) throws Exception, InterruptedException {
 
 		// *DEBUG AND TESTING VARIABLE FOR NOW*
-		User currentUser = new User("DEFAULT", "DEFAULT");
+		Customer currentUser = new Customer("DEFAULT", "DEFAULT");
 
 		// Display Window Set-Up
 		// ----------------------
@@ -87,7 +87,7 @@ public class Main_test extends Application implements EventHandler<ActionEvent> 
 		greetingPane.setMaxWidth(700);;
 		VBox centerVBox = new VBox(); // pane to hold the username and password labels and text fields
 		centerVBox.setMaxSize(350, 250);
-		setAnimatedBorder(centerVBox);
+		//setAnimatedBorder(centerVBox);
 		centerVBox.setStyle("-fx-background-color: rgba(0, 100, 100, 0.5); -fx-background-radius: 10;"); //'rgba' value with 'alpha' set to 0.5 for transparency
 		HBox underButtons = new HBox(); // pane to hold buttons displayed underneath text fields
 		
@@ -101,11 +101,11 @@ public class Main_test extends Application implements EventHandler<ActionEvent> 
 		final Text signInButtonActionText = new Text();
 
 		// Create Account Button
-		Button createAccountButton = new Button("Create Account");
-		createAccountButton.setOnAction(e -> {
+		Button createmenuPageAccountButton = new Button("Create Account");
+		createmenuPageAccountButton.setOnAction(e -> {
 			window.setScene(scene2);
 		});
-		signInPane.getChildren().addAll(signInButton, createAccountButton);
+		signInPane.getChildren().addAll(signInButton, createmenuPageAccountButton);
 
 		// Header/Greeting Area
 		TextFlow orderUpFlow = new TextFlow();
@@ -129,7 +129,7 @@ public class Main_test extends Application implements EventHandler<ActionEvent> 
 		underButtons.setAlignment(Pos.BOTTOM_CENTER);
 		underButtons.setSpacing(10);
 		underButtons.setPadding(new Insets(20, 0, 30, 0));
-		underButtons.getChildren().addAll(signInButton, createAccountButton);
+		underButtons.getChildren().addAll(signInButton, createmenuPageAccountButton);
 
 		Label userName = new Label("Username:");
 		userName.setTextFill(Color.LIGHTCYAN);
@@ -146,6 +146,7 @@ public class Main_test extends Application implements EventHandler<ActionEvent> 
 		centerVBox.getChildren().addAll(userName, userTextField, pw, pwBox, underButtons, signInButtonActionText);
 		centerVBox.setAlignment(Pos.CENTER);
 
+		// When the user cliks on the 'Sign-In' button on the sign-in page
 		signInButton.setOnAction(e -> {
 			signInButtonActionText.setFill(Color.TOMATO);
 			signInButtonActionText.setFont(Font.font("Calibri", FontWeight.BOLD, 15));
@@ -155,7 +156,7 @@ public class Main_test extends Application implements EventHandler<ActionEvent> 
 				signInButtonActionText.setText("Successfully verified credentials... logging in!");
 				userTextField.clear();
 				pwBox.clear();
-				currentUser.setLoginStatus(true);
+				currentUser.login();
 				window.setScene(scene3);
 			}
 
@@ -246,6 +247,7 @@ public class Main_test extends Application implements EventHandler<ActionEvent> 
 				contactNameLabel, contactNameField,
 				emailAddressLabel, emailAddressField, phoneNumberLabel, phoneNumberField, underButtons2, actiontarget);
 
+		createAccountCentralVBox.setSpacing(3);
 		createAccountCentralVBox.setAlignment(Pos.CENTER);
 
 		backButton.setOnAction(e -> {
@@ -254,6 +256,7 @@ public class Main_test extends Application implements EventHandler<ActionEvent> 
 			
 			
 		});
+
 		// Sets the action of Submit button to create a new User object with the
 		// information input into the text fields on the
 		// 'Account Creation' page
@@ -306,52 +309,65 @@ public class Main_test extends Application implements EventHandler<ActionEvent> 
 		// -------------------
 
 		// Panes
-		GridPane menuGridPane_Left = new GridPane();
-		menuGridPane_Left.setAlignment(Pos.CENTER);
-		menuGridPane_Left.setGridLinesVisible(true); // set 'true' to see grid-lines
-		menuGridPane_Left.setHgap(10);
-		menuGridPane_Left.setVgap(10);
-		menuGridPane_Left.setPadding(new Insets(0, 10, 0, 10));
+		GridPane menuPageGridPane_Left = new GridPane();
+		menuPageGridPane_Left.setAlignment(Pos.CENTER);
+		menuPageGridPane_Left.setGridLinesVisible(true); // set 'true' to see grid-lines
+		menuPageGridPane_Left.setHgap(10);
+		menuPageGridPane_Left.setVgap(10);
+		menuPageGridPane_Left.setPadding(new Insets(0, 10, 0, 10));
 
 		// Header/Greeting
-		GridPane bannerBox = new GridPane();
-		bannerBox.setAlignment(Pos.TOP_RIGHT);
-		bannerBox.setHgap(1);
-		bannerBox.setVgap(1);
-		bannerBox.setGridLinesVisible(false);
+		GridPane menuPageBannerBox = new GridPane();
+		menuPageBannerBox.setAlignment(Pos.TOP_RIGHT);
+		menuPageBannerBox.setHgap(1);
+		menuPageBannerBox.setVgap(1);
+		menuPageBannerBox.setGridLinesVisible(false);
 
 		//Navigation Buttons
-		HBox headerButtons = new HBox();
-		headerButtons.setAlignment(Pos.CENTER);
-		Button signOutButton = new Button("Sign-Out");
-		signOutButton.setOnAction(e -> 
+		HBox menuPageHeaderButtons = new HBox();
+		menuPageHeaderButtons.setAlignment(Pos.CENTER);
+
+		Button menuPageSignOutButton = new Button("Sign-Out");
+		menuPageSignOutButton.setOnAction(e -> 
 		{
 			window.setScene(scene1);
 			currentUser.resetUser();
-			signInButtonActionText.setText("");
+			signInButtonActionText.setFill(Color.TOMATO);
+			signInButtonActionText.setText("Signed out successfully");
 
 		});
 
-		Button accountButton = new Button("Account");
-		Button cartButton = new Button("Cart");
-		headerButtons.getChildren().addAll(signOutButton, accountButton, cartButton);
-		headerButtons.setSpacing(5);
+		Button menuPageAccountButton = new Button("Account");
+		menuPageAccountButton.setOnAction(e ->
+		{
+			currentUser.updateProfile();
+			window.setScene(scene4);
+		});
+
+		Button menuPageCartButton = new Button("Cart");
+		menuPageCartButton.setOnAction(e ->
+		{
+			window.setScene(scene5);
+		});
+
+		menuPageHeaderButtons.getChildren().addAll(menuPageSignOutButton, menuPageAccountButton, menuPageCartButton);
+		menuPageHeaderButtons.setSpacing(5);
 
 		Label menuHeader = new Label("Food Menu");
 		menuHeader.setTextFill(Color.DARKOLIVEGREEN);
 		menuHeader.setFont(Font.font("Calibri", FontWeight.EXTRA_BOLD, 50));
 		menuHeader.setUnderline(true);
-		bannerBox.add(menuHeader, 0, 1);
-		bannerBox.add(headerButtons, 1, 0);
+		menuPageBannerBox.add(menuHeader, 0, 1);
+		menuPageBannerBox.add(menuPageHeaderButtons, 1, 0);
 		ColumnConstraints column1 = new ColumnConstraints(300);
 		ColumnConstraints column2 = new ColumnConstraints(600);
-		bannerBox.getColumnConstraints().addAll(column1, column2);
+		menuPageBannerBox.getColumnConstraints().addAll(column1, column2);
 
 
 		// Main Pane
 		BorderPane menuPane = new BorderPane();
-		menuPane.setLeft(menuGridPane_Left);
-		menuPane.setTop(bannerBox);
+		menuPane.setLeft(menuPageGridPane_Left);
+		menuPane.setTop(menuPageBannerBox);
 
 		Label biscuitLabel = new Label("Biscuit\n$1.99");
 		Label cheeseLabel = new Label("Cheese\n$0.99");
@@ -397,21 +413,77 @@ public class Main_test extends Application implements EventHandler<ActionEvent> 
 		sausageImgV.setCache(true);
 
 		// Add all of the images/labels to the grid-pane for display
-		menuGridPane_Left.add(biscuitImgV, 0, 0);
-		menuGridPane_Left.add(biscuitLabel, 1, 0);
-		menuGridPane_Left.add(cheeseImgV, 0, 1);
-		menuGridPane_Left.add(cheeseLabel, 1, 1);
-		menuGridPane_Left.add(eggImgV, 0, 2);
-		menuGridPane_Left.add(eggLabel, 1, 2);
-		menuGridPane_Left.add(sausageImgV, 0, 3);
-		menuGridPane_Left.add(sausageLabel, 1, 3);
-		menuGridPane_Left.add(butterLabel, 1, 4);
+		menuPageGridPane_Left.add(biscuitImgV, 0, 0);
+		menuPageGridPane_Left.add(biscuitLabel, 1, 0);
+		menuPageGridPane_Left.add(cheeseImgV, 0, 1);
+		menuPageGridPane_Left.add(cheeseLabel, 1, 1);
+		menuPageGridPane_Left.add(eggImgV, 0, 2);
+		menuPageGridPane_Left.add(eggLabel, 1, 2);
+		menuPageGridPane_Left.add(sausageImgV, 0, 3);
+		menuPageGridPane_Left.add(sausageLabel, 1, 3);
+		menuPageGridPane_Left.add(butterLabel, 1, 4);
 
 		scene3 = new Scene(menuPane, screenbounds.getWidth(), screenbounds.getHeight());
 
 		// End Scene 3
 
-		// Scene 4
+		// Scene 4 - Account Information Page
+		// ----------
+
+		// Panes
+		BorderPane accountInfoPage = new BorderPane(); // Main pane for 'scene2'
+		accountInfoPage.setStyle("-fx-background-image: url('https://thumbs.dreamstime.com/z/food-delivery-workdesk-paper-bags-flatware-table-background-top-view-mock-up-restourant-gray-91618763.jpg');" + "-fx-background-size: cover;");
+		VBox accountInfoPageCentralVBox = new VBox();
+		accountInfoPageCentralVBox.setStyle("-fx-background-color: rgba(0,0,0, 0.7);");
+		accountInfoPageCentralVBox.setMaxSize(350, 350);
+		
+		HBox accountInfoPageGreeting = new HBox();
+		accountInfoPageGreeting.setStyle("-fx-background-color: rgba(0,0,0, 0.7); -fx-background-radius: 10;");
+		accountInfoPageGreeting.setMaxSize(500, 500);
+
+		
+		accountInfoPage.setCenter(accountInfoPageCentralVBox);
+		scene4 = new Scene(accountInfoPage, screenbounds.getWidth(), screenbounds.getHeight());
+
+
+		// End Scene 4
+
+		// Scene 5 - Cart Page
+		// -----------
+		BorderPane cartPageMainPane = new BorderPane();
+		cartPageMainPane.setStyle("-fx-background-image: url('https://img.freepik.com/free-psd/top-view-free-food-delivery-assortment-with-background-mock-up_23-2148421296.jpg?t=st=1649334513~exp=1649335113~hmac=b77793ec57018e5086c85a58d74ef43481b17cf0f8bf8284edef8efd9f6236c9&w=1060');" + "-fx-background-size: cover;");
+		
+		GridPane cartPageBannerGridBox = new GridPane();
+		cartPageBannerGridBox.setAlignment(Pos.TOP_RIGHT);
+		cartPageBannerGridBox.setHgap(1);
+		cartPageBannerGridBox.setVgap(1);
+		cartPageBannerGridBox.setGridLinesVisible(false);
+
+		Button cartPageSignOutButton = new Button("Sign Out");
+		cartPageSignOutButton.setOnAction(e ->
+		{
+			currentUser.resetUser();
+			window.setScene(scene1);
+			signInButtonActionText.setFill(Color.TOMATO);
+			signInButtonActionText.setText("Signed out successfully");
+		});
+
+		Button cartPageMenuButton = new Button("View Menu");
+		cartPageMenuButton.setOnAction(e ->
+		{
+			window.setScene(scene3);
+		});
+
+		HBox cartPageHeaderButtons = new HBox();
+		cartPageHeaderButtons.getChildren().addAll(cartPageSignOutButton, cartPageMenuButton);
+		cartPageHeaderButtons.setSpacing(5);
+		
+		cartPageBannerGridBox.add(cartPageHeaderButtons, 0, 1);
+		cartPageMainPane.setTop(cartPageBannerGridBox);
+
+		scene5 = new Scene(cartPageMainPane, screenbounds.getWidth(), screenbounds.getHeight());
+
+		// Scene 6
 		// ----------
 
 		// Panes
@@ -457,8 +529,6 @@ public class Main_test extends Application implements EventHandler<ActionEvent> 
 		Color[] colors = Stream.of("darkorange", "tomato", "deeppink", "blueviolet", "steelblue", "cornflowerblue", "lightseagreen", "#6fba82", "chartreuse", "crimson")
 			.map(Color::web)
 			.toArray(Color[]::new);
-		
-		List<Border> list = new ArrayList<>();
 		
 		int mills[] = {-200};
 		KeyFrame keyFrames[]  = Stream.iterate(0, i -> i+1)

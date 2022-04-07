@@ -3,8 +3,6 @@ package restaurant_project;
 import java.io.*;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
-import java.security.GeneralSecurityException;
-
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.application.Application;
@@ -18,14 +16,8 @@ import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
-import javafx.scene.layout.Background;
-import javafx.scene.layout.BackgroundFill;
-import javafx.scene.layout.Border;
 import javafx.scene.layout.BorderPane;
-import javafx.scene.layout.BorderStroke;
-import javafx.scene.layout.BorderStrokeStyle;
-import javafx.scene.layout.BorderWidths;
-import javafx.scene.layout.CornerRadii;
+import javafx.scene.layout.ColumnConstraints;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
@@ -50,7 +42,7 @@ public class Main_test extends Application implements EventHandler<ActionEvent> 
 	public void start(Stage primaryStage) throws Exception, InterruptedException {
 
 		// *DEBUG AND TESTING VARIABLE FOR NOW*
-		User currentUser = new User("d", "d");
+		User currentUser = new User("DEFAULT", "DEFAULT");
 
 		// Display Window Set-Up
 		// ----------------------
@@ -185,7 +177,6 @@ public class Main_test extends Application implements EventHandler<ActionEvent> 
 
 		// Back Button
 		Button backButton = new Button("Back");
-		backButton.setOnAction(e -> window.setScene(scene1));
 
 		underButtons2.getChildren().addAll(submitButton, backButton);
 		underButtons2.setSpacing(10);
@@ -228,7 +219,8 @@ public class Main_test extends Application implements EventHandler<ActionEvent> 
 		final Text actiontarget = new Text();
 		actiontarget.setFill(Color.FIREBRICK);
 		underButtons2Text.getChildren().add(actiontarget);
-		underButtons2Text.setAlignment(Pos.CENTER);
+		underButtons2Text.setAlignment(Pos.BOTTOM_CENTER);
+		underButtons2Text.setPadding(new Insets(25,0,0,0));
 
 		createAccountCentralVBox.getChildren().addAll(usernameInstructLabel, userTextField2, passwordInstructLabel,
 				pwField2,
@@ -237,6 +229,12 @@ public class Main_test extends Application implements EventHandler<ActionEvent> 
 
 		createAccountCentralVBox.setAlignment(Pos.CENTER);
 
+		backButton.setOnAction(e -> {
+			actiontarget.setText("");
+			window.setScene(scene1);
+			
+			
+		});
 		// Sets the action of Submit button to create a new User object with the
 		// information input into the text fields on the
 		// 'Account Creation' page
@@ -250,6 +248,7 @@ public class Main_test extends Application implements EventHandler<ActionEvent> 
 				actiontarget.setText("You left a field empty.");
 				
 			}
+			
 
 			// Set 'currentUser' attributes to String value inputs
 			else if (currentUser.getUserID() == "DEFAULT" && currentUser.getPassword() == "DEFAULT") {
@@ -296,19 +295,20 @@ public class Main_test extends Application implements EventHandler<ActionEvent> 
 		menuGridPane_Left.setPadding(new Insets(0, 10, 0, 10));
 
 		// Header/Greeting
-		HBox bannerBox = new HBox();
-		bannerBox.setAlignment(Pos.CENTER);
-		bannerBox.setPadding(new Insets(0, 0, -125, 0));
+		GridPane bannerBox = new GridPane();
+		bannerBox.setAlignment(Pos.TOP_RIGHT);
+		bannerBox.setHgap(1);
+		bannerBox.setVgap(1);
+		bannerBox.setGridLinesVisible(false);
 
 		//Navigation Buttons
 		HBox headerButtons = new HBox();
-		headerButtons.setAlignment(Pos.TOP_RIGHT);
-		headerButtons.setPadding(new Insets(10,-500,0,500));
+		headerButtons.setAlignment(Pos.CENTER);
 		Button signOutButton = new Button("Sign-Out");
 		signOutButton.setOnAction(e -> 
 		{
 			window.setScene(scene1);
-			currentUser.setLoginStatus(false);
+			currentUser.resetUser();
 			signInButtonActionText.setText("");
 
 		});
@@ -316,17 +316,24 @@ public class Main_test extends Application implements EventHandler<ActionEvent> 
 		Button accountButton = new Button("Account");
 		Button cartButton = new Button("Cart");
 		headerButtons.getChildren().addAll(signOutButton, accountButton, cartButton);
+		headerButtons.setSpacing(5);
 
 		Label menuHeader = new Label("Food Menu");
 		menuHeader.setTextFill(Color.DARKOLIVEGREEN);
 		menuHeader.setFont(Font.font("Calibri", FontWeight.EXTRA_BOLD, 50));
 		menuHeader.setUnderline(true);
-		bannerBox.getChildren().addAll(menuHeader, headerButtons);
+		bannerBox.add(menuHeader, 0, 1);
+		bannerBox.add(headerButtons, 1, 0);
+		ColumnConstraints column1 = new ColumnConstraints(300);
+		ColumnConstraints column2 = new ColumnConstraints(600);
+		bannerBox.getColumnConstraints().addAll(column1, column2);
+
 
 		// Main Pane
 		BorderPane menuPane = new BorderPane();
 		menuPane.setLeft(menuGridPane_Left);
 		menuPane.setTop(bannerBox);
+
 
 		Label biscuitLabel = new Label("Biscuit\n$1.99");
 		Label cheeseLabel = new Label("Cheese\n$0.99");
@@ -380,6 +387,7 @@ public class Main_test extends Application implements EventHandler<ActionEvent> 
 		menuGridPane_Left.add(eggLabel, 1, 2);
 		menuGridPane_Left.add(sausageImgV, 0, 3);
 		menuGridPane_Left.add(sausageLabel, 1, 3);
+		menuGridPane_Left.add(butterLabel, 1, 4);
 
 		scene3 = new Scene(menuPane, screenbounds.getWidth(), screenbounds.getHeight());
 

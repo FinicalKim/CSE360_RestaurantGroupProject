@@ -12,11 +12,14 @@ import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
+import javafx.geometry.Rectangle2D;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
+import javafx.scene.layout.Background;
+import javafx.scene.layout.BackgroundFill;
 import javafx.scene.layout.Border;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.BorderStroke;
@@ -30,6 +33,8 @@ import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
 import javafx.scene.text.FontWeight;
 import javafx.scene.text.Text;
+import javafx.scene.text.TextFlow;
+import javafx.stage.Screen;
 import javafx.stage.Stage;
 
 public class Main_test extends Application implements EventHandler<ActionEvent> {
@@ -53,9 +58,11 @@ public class Main_test extends Application implements EventHandler<ActionEvent> 
 
 		// Title the window "OrderUp"
 		window.setTitle("OrderUp");
-
-		int defaultWindowHeight = 750;
-		int defaultWindowWidth = 750;
+		window.setMaximized(true);
+		window.setResizable(true);
+		
+		//Get visible bounds of the screen for application resolution
+		Rectangle2D screenbounds = Screen.getPrimary().getVisualBounds();
 
 		// ---------------------------------------------------
 
@@ -66,15 +73,16 @@ public class Main_test extends Application implements EventHandler<ActionEvent> 
 		BorderPane signInPane = new BorderPane(); // the main pane
 		signInPane.setStyle("-fx-background-image: url('https://thumbs.dreamstime.com/z/food-lunch-boxes-delivery-food-ukrainian-cuisine-wooden-background-top-view-copy-space-food-lunch-boxes-delivery-151206649.jpg');");
 		HBox greetingPane = new HBox(); // the greeting at the top of the main 'signInPane' pane
-		greetingPane.setStyle("fx-background-color: #2f4f4f;");
-		greetingPane.toFront();
+		greetingPane.setStyle("-fx-background-color: rgba(0, 0, 0, 0.7); -fx-background-radius: 10;"); //set glassy background for banner
+		greetingPane.setMaxWidth(700);;
 		VBox centerVBox = new VBox(); // pane to hold the username and password labels and text fields
 		centerVBox.setMaxSize(350, 250);
-		centerVBox.setStyle("-fx-background-color: rgba(0, 100, 100, 0.5); -fx-background-radius: 10;");
-		centerVBox.setBorder(new Border(new BorderStroke(Color.BLACK, BorderStrokeStyle.SOLID, CornerRadii.EMPTY, BorderWidths.DEFAULT)));
+		centerVBox.setStyle("-fx-background-color: rgba(0, 100, 100, 0.5); -fx-background-radius: 10;"); //'rgba' value with 'alpha' set to 0.5 for transparency
 		HBox underButtons = new HBox(); // pane to hold buttons displayed underneath text fields
 		
 		signInPane.setTop(greetingPane);
+		signInPane.setAlignment(greetingPane, Pos.TOP_CENTER);
+		signInPane.setMargin(greetingPane, new Insets(100,0,0,0));;
 		signInPane.setCenter(centerVBox);
 
 		// Sign-In Button
@@ -83,17 +91,28 @@ public class Main_test extends Application implements EventHandler<ActionEvent> 
 
 		// Create Account Button
 		Button createAccountButton = new Button("Create Account");
-		createAccountButton.setOnAction(e -> window.setScene(scene2));
+		createAccountButton.setOnAction(e -> {
+			window.setScene(scene2);
+		});
 		signInPane.getChildren().addAll(signInButton, createAccountButton);
 
 		// Header/Greeting Area
-		greetingPane.setAlignment(Pos.CENTER);
-		greetingPane.setPadding(new Insets(50, 0, -150, 0));
+		TextFlow orderUpFlow = new TextFlow();
 
-		Label greeting = new Label("Welcome to OrderUp, please sign in to get started!");
-		greeting.setTextFill(Color.CORNFLOWERBLUE);
-		greeting.setFont(Font.font("Impact", FontWeight.BOLD, 30));
-		greetingPane.getChildren().addAll(greeting);
+		Text orderUpRed = new Text("OrderUp");
+		orderUpRed.setFill(Color.LIMEGREEN);
+		orderUpRed.setFont(Font.font("Impact", FontWeight.BOLD, 35));
+
+		Text greetingStart = new Text("Welcome to ");
+		greetingStart.setFont(Font.font("Impact", FontWeight.BOLD, 30));
+		greetingStart.setFill(Color.WHITESMOKE);
+
+		Text greetingEnd = new Text(", please sign in to get started!");
+		greetingEnd.setFont(Font.font("Impact", FontWeight.BOLD, 30));
+		greetingEnd.setFill(Color.WHITESMOKE);
+
+		orderUpFlow.getChildren().addAll(greetingStart, orderUpRed, greetingEnd);
+		greetingPane.getChildren().add(orderUpFlow);
 
 		// Central Login Area
 		underButtons.setAlignment(Pos.BOTTOM_CENTER);
@@ -101,7 +120,7 @@ public class Main_test extends Application implements EventHandler<ActionEvent> 
 		underButtons.setPadding(new Insets(20, 0, 30, 0));
 		underButtons.getChildren().addAll(signInButton, createAccountButton);
 
-		Label userName = new Label("User Name:");
+		Label userName = new Label("Username:");
 		userName.setTextFill(Color.LIGHTCYAN);
 		TextField userTextField = new TextField();
 		userTextField.setPrefWidth(150);
@@ -117,7 +136,8 @@ public class Main_test extends Application implements EventHandler<ActionEvent> 
 		centerVBox.setAlignment(Pos.CENTER);
 
 		signInButton.setOnAction(e -> {
-			signInButtonActionText.setFill(Color.FIREBRICK);
+			signInButtonActionText.setFill(Color.TOMATO);
+			signInButtonActionText.setFont(Font.font("Calibri", FontWeight.BOLD, 15));
 
 			if (currentUser.verifyCredentials(userTextField.getText(), pwBox.getText())) {
 				signInButtonActionText.setFill(Color.FORESTGREEN);
@@ -132,7 +152,8 @@ public class Main_test extends Application implements EventHandler<ActionEvent> 
 		});
 
 		// Display 'scene1' with the default window size
-		scene1 = new Scene(signInPane, defaultWindowWidth, defaultWindowHeight);
+		scene1 = new Scene(signInPane, screenbounds.getWidth(), screenbounds.getHeight());
+		
 
 		// End Scene 1
 		// ----------------------------
@@ -243,7 +264,7 @@ public class Main_test extends Application implements EventHandler<ActionEvent> 
 
 		});
 
-		scene2 = new Scene(createAccountPane, defaultWindowWidth, defaultWindowHeight);
+		scene2 = new Scene(createAccountPane, screenbounds.getWidth(), screenbounds.getHeight());
 
 		// End Scene 2
 		// -----------------------
@@ -328,7 +349,7 @@ public class Main_test extends Application implements EventHandler<ActionEvent> 
 		menuGridPane_Left.add(sausageImgV, 0, 3);
 		menuGridPane_Left.add(sausageLabel, 1, 3);
 
-		scene3 = new Scene(menuPane, defaultWindowWidth, defaultWindowHeight);
+		scene3 = new Scene(menuPane, screenbounds.getWidth(), screenbounds.getHeight());
 
 		// End Scene 3
 

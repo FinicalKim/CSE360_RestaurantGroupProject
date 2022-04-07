@@ -163,12 +163,19 @@ public class Main_test extends Application implements EventHandler<ActionEvent> 
 
 		// Panes
 		BorderPane createAccountPane = new BorderPane(); // Main pane for 'scene2'
+		createAccountPane.setStyle("-fx-background-image: url('https://thumbs.dreamstime.com/z/food-delivery-workdesk-paper-bags-flatware-table-background-top-view-mock-up-restourant-gray-91618763.jpg');" + "-fx-background-size: cover;");
 		VBox createAccountCentralVBox = new VBox();
+		createAccountCentralVBox.setStyle("-fx-background-color: rgba(0,0,0, 0.7);");
+		createAccountCentralVBox.setMaxSize(350, 350);
 		HBox createAccountGreeting = new HBox();
+		createAccountGreeting.setStyle("-fx-background-color: rgba(0,0,0, 0.7); -fx-background-radius: 10;");
+		createAccountGreeting.setMaxSize(500, 500);
 		HBox underButtons2 = new HBox();
 		HBox underButtons2Text = new HBox();
 
 		createAccountPane.setTop(createAccountGreeting);
+		createAccountPane.setAlignment(createAccountGreeting, Pos.TOP_CENTER);
+		createAccountPane.setMargin(createAccountGreeting, new Insets(100,0,0,0));
 		createAccountPane.setCenter(createAccountCentralVBox);
 
 		// Submit Button
@@ -185,29 +192,34 @@ public class Main_test extends Application implements EventHandler<ActionEvent> 
 
 		// Header/Greeting Area
 		createAccountGreeting.setAlignment(Pos.CENTER);
-		createAccountGreeting.setPadding(new Insets(200, 0, -150, 0));
 		Label accountGreeting = new Label("Create a New Account");
-		accountGreeting.setFont(Font.font("Calibri", FontWeight.BOLD, 20));
+		accountGreeting.setFont(Font.font("Impact", FontWeight.BOLD, 40));
+		accountGreeting.setTextFill(Color.WHITESMOKE);
 		createAccountGreeting.getChildren().add(accountGreeting);
 
 		// Central Account Creation Area
 		Label usernameInstructLabel = new Label("Please choose a username");
+		usernameInstructLabel.setTextFill(Color.WHITESMOKE);
 		TextField userTextField2 = new TextField();
 		userTextField2.setMaxWidth(150);
 
 		Label passwordInstructLabel = new Label("Please choose a password for your account");
+		passwordInstructLabel.setTextFill(Color.WHITESMOKE);
 		PasswordField pwField2 = new PasswordField();
 		pwField2.setMaxWidth(150);
 
 		Label contactNameLabel = new Label("Please enter your first and last name");
+		contactNameLabel.setTextFill(Color.WHITESMOKE);
 		TextField contactNameField = new TextField();
 		contactNameField.setMaxWidth(150);
 
 		Label emailAddressLabel = new Label("Please enter a contact email");
+		emailAddressLabel.setTextFill(Color.WHITESMOKE);
 		TextField emailAddressField = new TextField();
 		emailAddressField.setMaxWidth(150);
 
 		Label phoneNumberLabel = new Label("Please enter your phone-number");
+		phoneNumberLabel.setTextFill(Color.WHITESMOKE);
 		TextField phoneNumberField = new TextField();
 		phoneNumberField.setMaxWidth(150);
 
@@ -232,8 +244,9 @@ public class Main_test extends Application implements EventHandler<ActionEvent> 
 			if (userTextField2.getText().isEmpty() || pwField2.getText().isEmpty()
 					|| contactNameField.getText().isEmpty() ||
 					emailAddressField.getText().isEmpty() || phoneNumberField.getText().isEmpty()) {
-				actiontarget.setFill(Color.FIREBRICK);
+				actiontarget.setFill(Color.TOMATO);
 				actiontarget.setText("You left a field empty.");
+				
 			}
 
 			// Set 'currentUser' attributes to String value inputs

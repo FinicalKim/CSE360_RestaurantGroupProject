@@ -3,6 +3,8 @@ package restaurant_project;
 import java.io.*;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
+import java.security.GeneralSecurityException;
+
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.application.Application;
@@ -15,7 +17,12 @@ import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
+import javafx.scene.layout.Border;
 import javafx.scene.layout.BorderPane;
+import javafx.scene.layout.BorderStroke;
+import javafx.scene.layout.BorderStrokeStyle;
+import javafx.scene.layout.BorderWidths;
+import javafx.scene.layout.CornerRadii;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
@@ -57,10 +64,16 @@ public class Main_test extends Application implements EventHandler<ActionEvent> 
 
 		// Panes
 		BorderPane signInPane = new BorderPane(); // the main pane
+		signInPane.setStyle("-fx-background-image: url('https://thumbs.dreamstime.com/z/food-lunch-boxes-delivery-food-ukrainian-cuisine-wooden-background-top-view-copy-space-food-lunch-boxes-delivery-151206649.jpg');");
 		HBox greetingPane = new HBox(); // the greeting at the top of the main 'signInPane' pane
+		greetingPane.setStyle("fx-background-color: #2f4f4f;");
+		greetingPane.toFront();
 		VBox centerVBox = new VBox(); // pane to hold the username and password labels and text fields
+		centerVBox.setMaxSize(350, 250);
+		centerVBox.setStyle("-fx-background-color: rgba(0, 100, 100, 0.5); -fx-background-radius: 10;");
+		centerVBox.setBorder(new Border(new BorderStroke(Color.BLACK, BorderStrokeStyle.SOLID, CornerRadii.EMPTY, BorderWidths.DEFAULT)));
 		HBox underButtons = new HBox(); // pane to hold buttons displayed underneath text fields
-
+		
 		signInPane.setTop(greetingPane);
 		signInPane.setCenter(centerVBox);
 
@@ -75,11 +88,11 @@ public class Main_test extends Application implements EventHandler<ActionEvent> 
 
 		// Header/Greeting Area
 		greetingPane.setAlignment(Pos.CENTER);
-		greetingPane.setPadding(new Insets(200, 0, -150, 0));
+		greetingPane.setPadding(new Insets(50, 0, -150, 0));
 
 		Label greeting = new Label("Welcome to OrderUp, please sign in to get started!");
-		greeting.setTextFill(Color.CRIMSON);
-		greeting.setFont(Font.font("Calibri", FontWeight.BOLD, 20));
+		greeting.setTextFill(Color.CORNFLOWERBLUE);
+		greeting.setFont(Font.font("Impact", FontWeight.BOLD, 30));
 		greetingPane.getChildren().addAll(greeting);
 
 		// Central Login Area
@@ -89,11 +102,13 @@ public class Main_test extends Application implements EventHandler<ActionEvent> 
 		underButtons.getChildren().addAll(signInButton, createAccountButton);
 
 		Label userName = new Label("User Name:");
+		userName.setTextFill(Color.LIGHTCYAN);
 		TextField userTextField = new TextField();
 		userTextField.setPrefWidth(150);
 		userTextField.setMaxWidth(150);
 
 		Label pw = new Label("Password:");
+		pw.setTextFill(Color.LIGHTCYAN);
 		PasswordField pwBox = new PasswordField();
 		pwBox.setPrefWidth(150);
 		pwBox.setMaxWidth(150);

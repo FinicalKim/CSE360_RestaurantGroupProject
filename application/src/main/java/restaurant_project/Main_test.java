@@ -3,8 +3,25 @@ package restaurant_project;
 import java.io.*;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.stream.Stream;
+import javafx.animation.Interpolator;
+import javafx.animation.Timeline;
+import javafx.scene.layout.Border;
+import javafx.scene.layout.BorderStroke;
+import javafx.scene.layout.BorderStrokeStyle;
+import javafx.scene.layout.BorderWidths;
+import javafx.scene.paint.CycleMethod;
+import javafx.scene.paint.LinearGradient;
+import javafx.scene.paint.Stop;
+import javafx.scene.text.Text;
+import javafx.stage.Stage;
+import javafx.util.Duration;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.animation.KeyFrame;
+import javafx.animation.KeyValue;
 import javafx.application.Application;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
@@ -18,6 +35,7 @@ import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.ColumnConstraints;
+import javafx.scene.layout.CornerRadii;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
@@ -69,6 +87,7 @@ public class Main_test extends Application implements EventHandler<ActionEvent> 
 		greetingPane.setMaxWidth(700);;
 		VBox centerVBox = new VBox(); // pane to hold the username and password labels and text fields
 		centerVBox.setMaxSize(350, 250);
+		setBorder(centerVBox);
 		centerVBox.setStyle("-fx-background-color: rgba(0, 100, 100, 0.5); -fx-background-radius: 10;"); //'rgba' value with 'alpha' set to 0.5 for transparency
 		HBox underButtons = new HBox(); // pane to hold buttons displayed underneath text fields
 		
@@ -144,7 +163,7 @@ public class Main_test extends Application implements EventHandler<ActionEvent> 
 				signInButtonActionText.setText("Username and/or password incorrect.");
 			}
 		});
-
+		
 		// Display 'scene1' with the default window size
 		scene1 = new Scene(signInPane, screenbounds.getWidth(), screenbounds.getHeight());
 		
@@ -430,6 +449,28 @@ public class Main_test extends Application implements EventHandler<ActionEvent> 
 		window.setScene(scene1);
 		window.show();
 
+	}
+
+	// Method 'setBorder()':  This method will cycle through a series of colors and uses javafx libraries to create an animated border
+	// effect.  Currently implemented only for 'VBox' panes, but can be changed if needed.
+	private void setBorder(VBox centerVBox) {
+		Color[] colors = Stream.of("darkorange", "tomato", "deeppink", "blueviolet", "steelblue", "cornflowerblue", "lightseagreen", "#6fba82", "chartreuse", "crimson")
+			.map(Color::web)
+			.toArray(Color[]::new);
+		
+		List<Border> list = new ArrayList<>();
+		
+		int mills[] = {-200};
+		KeyFrame keyFrames[]  = Stream.iterate(0, i -> i+1)
+				.limit(100)
+				.map(i -> new LinearGradient(0, 0, 1, 1, true, CycleMethod.NO_CYCLE, new Stop[]{new Stop(0, colors[i%colors.length]), new Stop(1, colors[(i+1)%colors.length])}))
+				.map(lg -> new Border(new BorderStroke(lg, BorderStrokeStyle.SOLID, new CornerRadii(5), new BorderWidths(2))))
+				.map(b -> new KeyFrame(Duration.millis(mills[0]+=450), new KeyValue(centerVBox.borderProperty(), b, Interpolator.EASE_IN)))
+				.toArray(KeyFrame[]::new);
+		
+		Timeline timeline = new Timeline(keyFrames);
+		timeline.setCycleCount(Timeline.INDEFINITE);
+		timeline.play();
 	}
 
 	@Override

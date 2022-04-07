@@ -19,13 +19,20 @@ public class Customer extends User
         System.out.println("Okay... let's update your profile");
     }
 
-    public boolean login(boolean bool)
+    public boolean login()
     {
-        setLoginStatus(bool);
+        setLoginStatus(true);
 
         return getLoginStatus();
     }
 
+    public boolean logout()
+    {
+        setLoginStatus(false);
+
+        return getLoginStatus();
+    }
+    
     //Accessor methods
     public int getLoyaltyPoints()
     {

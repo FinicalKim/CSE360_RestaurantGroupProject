@@ -334,7 +334,6 @@ public class Main_test extends Application implements EventHandler<ActionEvent> 
 		menuPane.setLeft(menuGridPane_Left);
 		menuPane.setTop(bannerBox);
 
-
 		Label biscuitLabel = new Label("Biscuit\n$1.99");
 		Label cheeseLabel = new Label("Cheese\n$0.99");
 		Label eggLabel = new Label("Egg\n$1.39");

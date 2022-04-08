@@ -1,15 +1,74 @@
-public abstract class Food{
-  private String foodTitle;
-  private double foodPrice;
+package restaurant_project;
+
+public class Food {
+
+  protected String foodID;
+  protected String foodName;
+  protected double foodPrice;
+  protected boolean inStock;
+  protected String foodDetails;
   
-  public abstract Food();
-  public abstract Food(foodTitle, foodPrice);
+  // Default constructor for 'Food' object
+  public Food() {
+
+    foodID = "00_Default";
+    foodName = "Default_Food";
+    foodPrice = 0.00;
+    inStock = false;
+    foodDetails = "This is a default food object.";
+
+  }
+
+  // Mutator methods
+
+  public void setFoodID(String foodID) {
+
+    this.foodID = foodID;
+
+  }
+
+  public void setFoodTitle(String foodName) {
+
+    this.foodName = foodName;
+  }
+
   
-  public abstract void setFoodTitle(foodTitle);
+  public void setFoodPrice(int foodPrice) {
+
+    this.foodPrice = foodPrice;
+
+  }
+
+  public void setInStock(boolean bool) {
+
+    this.inStock = bool;
+
+  }
+
+  public void setFoodDetails(String details)  {
+
+    this.foodDetails = details;
+
+  }
   
-  public abstract String getFoodTitle();
-  
-  public abstract void setFoodPrice(foodPrice);
-  
-  public abstract double getFoodPrice();
+  // Accessor methods
+  public String getFoodTitle() {
+
+    return this.foodName;
+
+  }
+
+  public double getFoodPrice() {
+
+    return this.foodPrice;
+
+  }
+
+  public String getFoodID()
+  {
+    
+    return this.foodID;
+    
+  }
+
 }

@@ -1,42 +1,55 @@
-public class Beverage extends food{
-  private String foodTitle;
+package restaurant_project;
+
+public class Beverage extends Food{
+
   private String size;
-  private enum int small = 16;
-  private enum int medium = 24;
-  private enum int large = 32;
-  private double foodPrice;
+  private int small;
+  private int medium;
+  private int large;
   
-  public Food(){
-    this.foodTitle = "No food title";
-    this.foodPrice = 0;
+  public Beverage()
+  {
+    super();
+    small = 16;
+    medium = 24;
+    large = 32;
   }
-  public Food(foodTitle,foodPrice, size){
-    this.foodTitle = foodTitle;
+
+  // Mutator methods
+  public void setFoodTitle(String foodName){
+
+    this.foodName = foodName;
+
+  }
+  
+  public void setFoodPrice(int foodPrice){
+
     this.foodPrice = foodPrice;
-    this.size = size;
+
   }
   
-  public void setFoodTitle(foodTitle){
-  this.foodTitle = foodTitle;
-  }
-  
-  public String getFoodTitle(){
-    return this.foodTitle;
-  }
-  
-  public void setFoodPrice(foodPrice){
-    this.foodPrice = foodPrice;
-  }
-  
-  public double getFoodPrice(){
-    return this.foodPrice;
-  }
-  
-  public void setsize(size){
+  public void setSize(String size) {
+
   this.size = size;
   }
   
-  public String getsize(){
-    return this.size;
+  // Accessor methods
+  public String getFoodTitle(){
+    
+    return this.foodName;
+
   }
+  
+  public double getFoodPrice(){
+
+    return this.foodPrice;
+
+  }
+
+  public String getsize(){
+
+    return this.size;
+
+  }
+
 }

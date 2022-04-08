@@ -19,6 +19,15 @@ public class Food {
 
   }
 
+  public Food(String foodName, String foodID) {
+    
+    this.foodName = foodName;
+    this.foodID = foodID;
+    foodPrice = 1.00;
+    inStock = true;
+    foodDetails = "This is a user defined food object.";
+  }
+
   // Mutator methods
 
   public void setFoodID(String foodID) {
@@ -52,7 +61,7 @@ public class Food {
   }
   
   // Accessor methods
-  public String getFoodTitle() {
+  public String getFoodName() {
 
     return this.foodName;
 

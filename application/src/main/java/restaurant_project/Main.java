@@ -70,8 +70,8 @@ public class Main extends Application implements EventHandler<ActionEvent> {
 		window.setTitle("OrderUp");
 		window.setMaximized(true);
 		window.setResizable(true);
-		
-		//Get visible bounds of the screen for application resolution
+
+		// Get visible bounds of the screen for application resolution
 		Rectangle2D screenbounds = Screen.getPrimary().getVisualBounds();
 
 		// ---------------------------------------------------
@@ -81,19 +81,29 @@ public class Main extends Application implements EventHandler<ActionEvent> {
 
 		// Panes
 		BorderPane signInPane = new BorderPane(); // the main pane
-		signInPane.setStyle("-fx-background-image: url('https://thumbs.dreamstime.com/z/food-lunch-boxes-delivery-food-ukrainian-cuisine-wooden-background-top-view-copy-space-food-lunch-boxes-delivery-151206649.jpg');");
+		signInPane.setStyle(
+				"-fx-background-image: url('https://thumbs.dreamstime.com/z/food-lunch-boxes-delivery-food-ukrainian-cuisine-wooden-background-top-view-copy-space-food-lunch-boxes-delivery-151206649.jpg');");
 		HBox greetingPane = new HBox(); // the greeting at the top of the main 'signInPane' pane
-		greetingPane.setStyle("-fx-background-color: rgba(0, 0, 0, 0.7); -fx-background-radius: 10;"); //set glassy background for banner
-		greetingPane.setMaxWidth(700);;
+		greetingPane.setStyle("-fx-background-color: rgba(0, 0, 0, 0.7); -fx-background-radius: 10;"); // set glassy
+																										// background
+																										// for banner
+		greetingPane.setMaxWidth(700);
+		;
 		VBox centerVBox = new VBox(); // pane to hold the username and password labels and text fields
 		centerVBox.setMaxSize(350, 250);
 		setAnimatedBorder(centerVBox);
-		centerVBox.setStyle("-fx-background-color: rgba(0, 100, 100, 0.5); -fx-background-radius: 10;"); //'rgba' value with 'alpha' set to 0.5 for transparency
+		centerVBox.setStyle("-fx-background-color: rgba(0, 100, 100, 0.5); -fx-background-radius: 10;"); // 'rgba' value
+																											// with
+																											// 'alpha'
+																											// set to
+																											// 0.5 for
+																											// transparency
 		HBox underButtons = new HBox(); // pane to hold buttons displayed underneath text fields
-		
+
 		signInPane.setTop(greetingPane);
 		signInPane.setAlignment(greetingPane, Pos.TOP_CENTER);
-		signInPane.setMargin(greetingPane, new Insets(100,0,0,0));;
+		signInPane.setMargin(greetingPane, new Insets(100, 0, 0, 0));
+		;
 		signInPane.setCenter(centerVBox);
 
 		// Sign-In Button
@@ -133,7 +143,7 @@ public class Main extends Application implements EventHandler<ActionEvent> {
 
 		Label loginInstruct = new Label("Please log-in to get started");
 		loginInstruct.setTextFill(Color.LIGHTCYAN);
-		loginInstruct.setPadding(new Insets(0,0,25,0));
+		loginInstruct.setPadding(new Insets(0, 0, 25, 0));
 
 		Label userName = new Label("Username:");
 		userName.setTextFill(Color.LIGHTCYAN);
@@ -147,7 +157,8 @@ public class Main extends Application implements EventHandler<ActionEvent> {
 		pwBox.setPrefWidth(150);
 		pwBox.setMaxWidth(150);
 
-		centerVBox.getChildren().addAll(loginInstruct, userName, userTextField, pw, pwBox, underButtons, signInButtonActionText);
+		centerVBox.getChildren().addAll(loginInstruct, userName, userTextField, pw, pwBox, underButtons,
+				signInButtonActionText);
 		centerVBox.setAlignment(Pos.CENTER);
 
 		// When the user cliks on the 'Sign-In' button on the sign-in page
@@ -168,10 +179,9 @@ public class Main extends Application implements EventHandler<ActionEvent> {
 				signInButtonActionText.setText("Username and/or password incorrect.");
 			}
 		});
-		
+
 		// Display 'scene1' with the default window size
 		scene1 = new Scene(signInPane, screenbounds.getWidth(), screenbounds.getHeight());
-		
 
 		// End Scene 1
 		// ----------------------------
@@ -181,7 +191,9 @@ public class Main extends Application implements EventHandler<ActionEvent> {
 
 		// Panes
 		BorderPane createAccountPane = new BorderPane(); // Main pane for 'scene2'
-		createAccountPane.setStyle("-fx-background-image: url('https://thumbs.dreamstime.com/z/food-delivery-workdesk-paper-bags-flatware-table-background-top-view-mock-up-restourant-gray-91618763.jpg');" + "-fx-background-size: cover;");
+		createAccountPane.setStyle(
+				"-fx-background-image: url('https://thumbs.dreamstime.com/z/food-delivery-workdesk-paper-bags-flatware-table-background-top-view-mock-up-restourant-gray-91618763.jpg');"
+						+ "-fx-background-size: cover;");
 		VBox createAccountCentralVBox = new VBox();
 		createAccountCentralVBox.setStyle("-fx-background-color: rgba(0,0,0, 0.7);");
 		createAccountCentralVBox.setMaxSize(350, 350);
@@ -193,7 +205,7 @@ public class Main extends Application implements EventHandler<ActionEvent> {
 
 		createAccountPane.setTop(createAccountGreeting);
 		createAccountPane.setAlignment(createAccountGreeting, Pos.TOP_CENTER);
-		createAccountPane.setMargin(createAccountGreeting, new Insets(100,0,0,0));
+		createAccountPane.setMargin(createAccountGreeting, new Insets(100, 0, 0, 0));
 		createAccountPane.setCenter(createAccountCentralVBox);
 
 		// Submit Button
@@ -244,7 +256,7 @@ public class Main extends Application implements EventHandler<ActionEvent> {
 		actiontarget.setFill(Color.FIREBRICK);
 		underButtons2Text.getChildren().add(actiontarget);
 		underButtons2Text.setAlignment(Pos.BOTTOM_CENTER);
-		underButtons2Text.setPadding(new Insets(25,0,0,0));
+		underButtons2Text.setPadding(new Insets(25, 0, 0, 0));
 
 		createAccountCentralVBox.getChildren().addAll(usernameInstructLabel, userTextField2, passwordInstructLabel,
 				pwField2,
@@ -257,8 +269,7 @@ public class Main extends Application implements EventHandler<ActionEvent> {
 		backButton.setOnAction(e -> {
 			actiontarget.setText("");
 			window.setScene(scene1);
-			
-			
+
 		});
 
 		// Sets the action of Submit button to create a new User object with the
@@ -272,9 +283,8 @@ public class Main extends Application implements EventHandler<ActionEvent> {
 					emailAddressField.getText().isEmpty() || phoneNumberField.getText().isEmpty()) {
 				actiontarget.setFill(Color.TOMATO);
 				actiontarget.setText("You left a field empty.");
-				
+
 			}
-			
 
 			// Set 'currentUser' attributes to String value inputs
 			else if (currentUser.getUserID() == "DEFAULT" && currentUser.getPassword() == "DEFAULT") {
@@ -327,13 +337,12 @@ public class Main extends Application implements EventHandler<ActionEvent> {
 		menuPageBannerBox.setVgap(1);
 		menuPageBannerBox.setGridLinesVisible(false);
 
-		//Navigation Buttons
+		// Navigation Buttons
 		HBox menuPageHeaderButtons = new HBox();
 		menuPageHeaderButtons.setAlignment(Pos.CENTER);
 
 		Button menuPageSignOutButton = new Button("Sign-Out");
-		menuPageSignOutButton.setOnAction(e -> 
-		{
+		menuPageSignOutButton.setOnAction(e -> {
 			window.setScene(scene1);
 			currentUser.resetUser();
 			signInButtonActionText.setFill(Color.TOMATO);
@@ -342,15 +351,13 @@ public class Main extends Application implements EventHandler<ActionEvent> {
 		});
 
 		Button menuPageAccountButton = new Button("Account");
-		menuPageAccountButton.setOnAction(e ->
-		{
+		menuPageAccountButton.setOnAction(e -> {
 			currentUser.updateProfile();
 			window.setScene(scene4);
 		});
 
 		Button menuPageCartButton = new Button("Cart");
-		menuPageCartButton.setOnAction(e ->
-		{
+		menuPageCartButton.setOnAction(e -> {
 			window.setScene(scene5);
 		});
 
@@ -366,7 +373,6 @@ public class Main extends Application implements EventHandler<ActionEvent> {
 		ColumnConstraints column1 = new ColumnConstraints(300);
 		ColumnConstraints column2 = new ColumnConstraints(600);
 		menuPageBannerBox.getColumnConstraints().addAll(column1, column2);
-
 
 		// Main Pane
 		BorderPane menuPane = new BorderPane();
@@ -416,6 +422,15 @@ public class Main extends Application implements EventHandler<ActionEvent> {
 		sausageImgV.setSmooth(true);
 		sausageImgV.setCache(true);
 
+		Image butterImg = new Image(new FileInputStream(
+				"application\\src\\main\\resources\\Images\\purepng.com-butterfood-dairy-milk-butter-buttermilk-cream-butterfat-941524621398zsmge.png"));
+		ImageView butterImgV = new ImageView();
+		butterImgV.setImage(butterImg);
+		butterImgV.setFitWidth(75);
+		butterImgV.setPreserveRatio(true);
+		butterImgV.setSmooth(true);
+		butterImgV.setCache(true);
+
 		// Add all of the images/labels to the grid-pane for display
 		menuPageGridPane_Left.add(biscuitImgV, 0, 0);
 		menuPageGridPane_Left.add(biscuitLabel, 1, 0);
@@ -425,6 +440,7 @@ public class Main extends Application implements EventHandler<ActionEvent> {
 		menuPageGridPane_Left.add(eggLabel, 1, 2);
 		menuPageGridPane_Left.add(sausageImgV, 0, 3);
 		menuPageGridPane_Left.add(sausageLabel, 1, 3);
+		menuPageGridPane_Left.add(butterImgV, 0, 4);
 		menuPageGridPane_Left.add(butterLabel, 1, 4);
 
 		scene3 = new Scene(menuPane, screenbounds.getWidth(), screenbounds.getHeight());
@@ -436,36 +452,39 @@ public class Main extends Application implements EventHandler<ActionEvent> {
 
 		// Panes
 		BorderPane accountInfoPage = new BorderPane(); // Main pane for 'scene2'
-		accountInfoPage.setStyle("-fx-background-image: url('https://thumbs.dreamstime.com/z/food-delivery-workdesk-paper-bags-flatware-table-background-top-view-mock-up-restourant-gray-91618763.jpg');" + "-fx-background-size: cover;");
+		accountInfoPage.setStyle(
+				"-fx-background-image: url('https://thumbs.dreamstime.com/z/food-delivery-workdesk-paper-bags-flatware-table-background-top-view-mock-up-restourant-gray-91618763.jpg');"
+						+ "-fx-background-size: cover;");
 		VBox accountInfoPageCentralVBox = new VBox();
 		accountInfoPageCentralVBox.setStyle("-fx-background-color: rgba(0,0,0, 0.7);");
 		accountInfoPageCentralVBox.setMaxSize(350, 350);
-		
+
 		HBox accountInfoPageGreeting = new HBox();
 		accountInfoPageGreeting.setStyle("-fx-background-color: rgba(0,0,0, 0.7); -fx-background-radius: 10;");
 		accountInfoPageGreeting.setMaxSize(500, 500);
 
-		
 		accountInfoPage.setCenter(accountInfoPageCentralVBox);
 		scene4 = new Scene(accountInfoPage, screenbounds.getWidth(), screenbounds.getHeight());
-
 
 		// End Scene 4
 
 		// Scene 5 - Cart Page
 		// -----------
 		BorderPane cartPageMainPane = new BorderPane();
-		cartPageMainPane.setStyle("-fx-background-image: url('https://img.freepik.com/free-psd/top-view-free-food-delivery-assortment-with-background-mock-up_23-2148421296.jpg?t=st=1649334513~exp=1649335113~hmac=b77793ec57018e5086c85a58d74ef43481b17cf0f8bf8284edef8efd9f6236c9&w=1060');" + "-fx-background-size: cover;");
-		
+		cartPageMainPane.setStyle(
+				"-fx-background-image: url('https://img.freepik.com/free-psd/top-view-free-food-delivery-assortment-with-background-mock-up_23-2148421296.jpg?t=st=1649334513~exp=1649335113~hmac=b77793ec57018e5086c85a58d74ef43481b17cf0f8bf8284edef8efd9f6236c9&w=1060');"
+						+ "-fx-background-size: cover;");
+
 		GridPane cartPageBannerGridBox = new GridPane();
 		cartPageBannerGridBox.setAlignment(Pos.TOP_RIGHT);
 		cartPageBannerGridBox.setHgap(1);
 		cartPageBannerGridBox.setVgap(1);
 		cartPageBannerGridBox.setGridLinesVisible(false);
 
+		VBox cartItemsVBox = new VBox();
+
 		Button cartPageSignOutButton = new Button("Sign Out");
-		cartPageSignOutButton.setOnAction(e ->
-		{
+		cartPageSignOutButton.setOnAction(e -> {
 			currentUser.resetUser();
 			window.setScene(scene1);
 			signInButtonActionText.setFill(Color.TOMATO);
@@ -473,17 +492,17 @@ public class Main extends Application implements EventHandler<ActionEvent> {
 		});
 
 		Button cartPageMenuButton = new Button("View Menu");
-		cartPageMenuButton.setOnAction(e ->
-		{
+		cartPageMenuButton.setOnAction(e -> {
 			window.setScene(scene3);
 		});
 
 		HBox cartPageHeaderButtons = new HBox();
 		cartPageHeaderButtons.getChildren().addAll(cartPageSignOutButton, cartPageMenuButton);
 		cartPageHeaderButtons.setSpacing(5);
-		
+
 		cartPageBannerGridBox.add(cartPageHeaderButtons, 0, 1);
 		cartPageMainPane.setTop(cartPageBannerGridBox);
+		cartPageMainPane.setLeft(cartItemsVBox);
 
 		scene5 = new Scene(cartPageMainPane, screenbounds.getWidth(), screenbounds.getHeight());
 
@@ -527,21 +546,29 @@ public class Main extends Application implements EventHandler<ActionEvent> {
 
 	}
 
-	// Method 'setBorder()':  This method will cycle through a series of colors and uses javafx libraries to create an animated border
-	// effect.  Currently implemented only for 'VBox' panes, but can be changed if needed.
+	// Method 'setBorder()': This method will cycle through a series of colors and
+	// uses javafx libraries to create an animated border
+	// effect. Currently implemented only for 'VBox' panes, but can be changed if
+	// needed.
 	private void setAnimatedBorder(VBox centerVBox) {
-		Color[] colors = Stream.of("darkorange", "tomato", "deeppink", "blueviolet", "steelblue", "cornflowerblue", "lightseagreen", "#6fba82", "chartreuse", "crimson")
-			.map(Color::web)
-			.toArray(Color[]::new);
-		
-		int mills[] = {0};
-		KeyFrame keyFrames[]  = Stream.iterate(0, i -> i+1)
+		Color[] colors = Stream
+				.of("darkorange", "tomato", "deeppink", "blueviolet", "steelblue", "cornflowerblue", "lightseagreen",
+						"#6fba82", "chartreuse", "crimson")
+				.map(Color::web)
+				.toArray(Color[]::new);
+
+		int mills[] = { 0 };
+		KeyFrame keyFrames[] = Stream.iterate(0, i -> i + 1)
 				.limit(100)
-				.map(i -> new LinearGradient(0, 0, 1, 1, true, CycleMethod.NO_CYCLE, new Stop[]{new Stop(0, colors[i%colors.length]), new Stop(1, colors[(i+1)%colors.length])}))
-				.map(lg -> new Border(new BorderStroke(lg, BorderStrokeStyle.SOLID, new CornerRadii(5), new BorderWidths(2))))
-				.map(b -> new KeyFrame(Duration.millis(mills[0]+=250), new KeyValue(centerVBox.borderProperty(), b, Interpolator.EASE_IN)))
+				.map(i -> new LinearGradient(0, 0, 1, 1, true, CycleMethod.NO_CYCLE,
+						new Stop[] { new Stop(0, colors[i % colors.length]),
+								new Stop(1, colors[(i + 1) % colors.length]) }))
+				.map(lg -> new Border(
+						new BorderStroke(lg, BorderStrokeStyle.SOLID, new CornerRadii(5), new BorderWidths(2))))
+				.map(b -> new KeyFrame(Duration.millis(mills[0] += 250),
+						new KeyValue(centerVBox.borderProperty(), b, Interpolator.EASE_IN)))
 				.toArray(KeyFrame[]::new);
-		
+
 		Timeline timeline = new Timeline(keyFrames);
 		timeline.setCycleCount(Timeline.INDEFINITE);
 		timeline.play();

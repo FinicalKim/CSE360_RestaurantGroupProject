@@ -19,11 +19,11 @@ public class Food {
 
   }
 
-  public Food(String foodName, String foodID) {
+  public Food(String foodName, String foodID, int foodPrice) {
     
     this.foodName = foodName;
     this.foodID = foodID;
-    foodPrice = 1.00;
+    this.foodPrice = foodPrice * 1.00;
     inStock = true;
     foodDetails = "This is a user defined food object.";
   }

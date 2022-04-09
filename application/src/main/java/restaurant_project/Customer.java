@@ -6,12 +6,15 @@ public class Customer extends User
     private String creditCardInfo;
     private Coupon[] couponList;
     private int loyaltyPoints;
+    private Cart customerCart;
 
     public Customer(String userID, String password) {
         super(userID, password);
         creditCardInfo = null;
         loyaltyPoints = 0;
         couponList = new Coupon[10];
+        customerCart = new Cart();
+        customerCart.setCartID("cart_" + userID);
     }
 
     public void updateProfile()
@@ -34,6 +37,13 @@ public class Customer extends User
     }
     
     //Accessor methods
+
+    public Cart getCart(){
+
+        return customerCart;
+
+    }
+
     public int getLoyaltyPoints()
     {
         return loyaltyPoints;

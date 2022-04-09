@@ -87,7 +87,7 @@ public class Main extends Application implements EventHandler<ActionEvent> {
 		greetingPane.setMaxWidth(700);;
 		VBox centerVBox = new VBox(); // pane to hold the username and password labels and text fields
 		centerVBox.setMaxSize(350, 250);
-		//setAnimatedBorder(centerVBox);
+		setAnimatedBorder(centerVBox);
 		centerVBox.setStyle("-fx-background-color: rgba(0, 100, 100, 0.5); -fx-background-radius: 10;"); //'rgba' value with 'alpha' set to 0.5 for transparency
 		HBox underButtons = new HBox(); // pane to hold buttons displayed underneath text fields
 		
@@ -534,12 +534,12 @@ public class Main extends Application implements EventHandler<ActionEvent> {
 			.map(Color::web)
 			.toArray(Color[]::new);
 		
-		int mills[] = {-200};
+		int mills[] = {0};
 		KeyFrame keyFrames[]  = Stream.iterate(0, i -> i+1)
 				.limit(100)
 				.map(i -> new LinearGradient(0, 0, 1, 1, true, CycleMethod.NO_CYCLE, new Stop[]{new Stop(0, colors[i%colors.length]), new Stop(1, colors[(i+1)%colors.length])}))
 				.map(lg -> new Border(new BorderStroke(lg, BorderStrokeStyle.SOLID, new CornerRadii(5), new BorderWidths(2))))
-				.map(b -> new KeyFrame(Duration.millis(mills[0]+=450), new KeyValue(centerVBox.borderProperty(), b, Interpolator.EASE_IN)))
+				.map(b -> new KeyFrame(Duration.millis(mills[0]+=250), new KeyValue(centerVBox.borderProperty(), b, Interpolator.EASE_IN)))
 				.toArray(KeyFrame[]::new);
 		
 		Timeline timeline = new Timeline(keyFrames);

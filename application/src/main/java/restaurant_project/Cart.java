@@ -30,14 +30,17 @@ public class Cart {
 
     // Accessor methods
 
-    public void printCartItems(){
+    public String printCartItems(){
         
         ListIterator<Food> iterator = this.cartItems.listIterator();
         
+        String cartItemsString = "";
+
         while (iterator.hasNext()){
-            System.out.println(iterator.next().getFoodName());
+            cartItemsString = cartItemsString + iterator.next().getFoodName() + "\n";
         }
         
+        return cartItemsString;
     }
 
     public int getNumberofItems(){
@@ -72,6 +75,7 @@ public class Cart {
     public void addItem(Food foodItem) {
 
         this.cartItems.add(foodItem);
+        System.out.println("Adding '" + foodItem.getFoodName() + "' to cart.");
         
     }
 
@@ -93,6 +97,7 @@ public class Cart {
     }
 
 
+/*
 public static void main(String[] args)
 {
     Cart myCart = new Cart();
@@ -109,4 +114,6 @@ public static void main(String[] args)
     myCart.printCartItems();
     System.out.println("Your subtotal is : $" + String.format("%.2f", myCart.getSubtotal()));
 }
+*/
+
 }

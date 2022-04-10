@@ -19,7 +19,7 @@ public class Food {
 
   }
 
-  public Food(String foodName, String foodID, int foodPrice) {
+  public Food(String foodName, String foodID, double foodPrice) {
     
     this.foodName = foodName;
     this.foodID = foodID;
@@ -36,13 +36,13 @@ public class Food {
 
   }
 
-  public void setFoodTitle(String foodName) {
+  public void setFoodName(String foodName) {
 
     this.foodName = foodName;
   }
 
   
-  public void setFoodPrice(int foodPrice) {
+  public void setFoodPrice(double foodPrice) {
 
     this.foodPrice = foodPrice;
 
@@ -77,6 +77,19 @@ public class Food {
   {
     
     return this.foodID;
+    
+  }
+
+  public boolean getStockStatus()
+
+  {
+    return this.inStock;
+
+  }
+
+  public String getFoodDetails() {
+
+    return this.foodDetails;
     
   }
 

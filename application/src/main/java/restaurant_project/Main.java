@@ -3,8 +3,6 @@ package restaurant_project;
 import java.io.*;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
-import java.util.ArrayList;
-import java.util.List;
 import java.util.stream.Stream;
 import javafx.animation.Interpolator;
 import javafx.animation.Timeline;
@@ -482,6 +480,7 @@ public class Main extends Application implements EventHandler<ActionEvent> {
 		cartPageBannerGridBox.setGridLinesVisible(false);
 
 		VBox cartItemsVBox = new VBox();
+		
 
 		Button cartPageSignOutButton = new Button("Sign Out");
 		cartPageSignOutButton.setOnAction(e -> {

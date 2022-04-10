@@ -1,3 +1,5 @@
+package restaurant_project;
+
 import java.util.*;
 
 public class Menu{

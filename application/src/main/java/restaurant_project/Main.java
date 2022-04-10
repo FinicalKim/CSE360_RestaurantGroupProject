@@ -30,6 +30,7 @@ import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.PasswordField;
+import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.ColumnConstraints;
@@ -82,20 +83,15 @@ public class Main extends Application implements EventHandler<ActionEvent> {
 		signInPane.setStyle(
 				"-fx-background-image: url('https://thumbs.dreamstime.com/z/food-lunch-boxes-delivery-food-ukrainian-cuisine-wooden-background-top-view-copy-space-food-lunch-boxes-delivery-151206649.jpg');");
 		HBox greetingPane = new HBox(); // the greeting at the top of the main 'signInPane' pane
-		greetingPane.setStyle("-fx-background-color: rgba(0, 0, 0, 0.7); -fx-background-radius: 10;"); // set glassy
-																										// background
-																										// for banner
+		greetingPane.setStyle("-fx-background-color: rgba(0, 0, 0, 0.7); -fx-background-radius: 10;"); // set glassy background for banner
+																										
 		greetingPane.setMaxWidth(700);
 		;
 		VBox centerVBox = new VBox(); // pane to hold the username and password labels and text fields
 		centerVBox.setMaxSize(350, 250);
 		setAnimatedBorder(centerVBox);
-		centerVBox.setStyle("-fx-background-color: rgba(0, 100, 100, 0.5); -fx-background-radius: 10;"); // 'rgba' value
-																											// with
-																											// 'alpha'
-																											// set to
-																											// 0.5 for
-																											// transparency
+		centerVBox.setStyle("-fx-background-color: rgba(0, 100, 100, 0.5); -fx-background-radius: 10;"); // 'rgba' value with 0.5 set for alpha value for transparency
+																											
 		HBox underButtons = new HBox(); // pane to hold buttons displayed underneath text fields
 
 		signInPane.setTop(greetingPane);
@@ -428,10 +424,19 @@ public class Main extends Application implements EventHandler<ActionEvent> {
 		butterImgV.setPreserveRatio(true);
 		butterImgV.setSmooth(true);
 		butterImgV.setCache(true);
+		
+		Button addBiscuit = new Button("Add Biscuit");
+		addBiscuit.setOnAction(e -> {
+
+			currentUser.getCart().addItem(new Food("Biscuit", "food_biscuit", 1));
+			System.out.println(currentUser.getCart().printCartItems());
+		});
+
 
 		// Add all of the images/labels to the grid-pane for display
 		menuPageGridPane_Left.add(biscuitImgV, 0, 0);
 		menuPageGridPane_Left.add(biscuitLabel, 1, 0);
+		menuPageGridPane_Left.add(addBiscuit, 2, 0);
 		menuPageGridPane_Left.add(cheeseImgV, 0, 1);
 		menuPageGridPane_Left.add(cheeseLabel, 1, 1);
 		menuPageGridPane_Left.add(eggImgV, 0, 2);
@@ -462,6 +467,21 @@ public class Main extends Application implements EventHandler<ActionEvent> {
 		accountInfoPageGreeting.setMaxSize(500, 500);
 
 		accountInfoPage.setCenter(accountInfoPageCentralVBox);
+
+		//TODO: Need to refactor into using Stages in order to execute code ONLY when certain stages are shown.  As of right now
+		// the 'get()' methods are immediately called upon instantiation of the 'currentUser', resulting in these labels
+		// being given a string + null value.
+		Label userNameLabel_AccInfo = new Label("Username: " + currentUser.getUserID());
+		userNameLabel_AccInfo.setTextFill(Color.WHITESMOKE);
+		Label contactNameLabel_AccInfo = new Label("Contact Name: " + currentUser.getContactName());
+		contactNameLabel_AccInfo.setTextFill(Color.WHITESMOKE);
+		Label emailLabel_AccInfo = new Label("Email: " + currentUser.getEmail());
+		emailLabel_AccInfo.setTextFill(Color.WHITESMOKE);
+		Label phoneNumberlabel_AccInfo = new Label("Phone Number: " + currentUser.getPhoneNumber());
+		phoneNumberlabel_AccInfo.setTextFill(Color.WHITESMOKE);
+		accountInfoPageCentralVBox.getChildren().addAll(userNameLabel_AccInfo, contactNameLabel_AccInfo, emailLabel_AccInfo, phoneNumberlabel_AccInfo);
+		accountInfoPageCentralVBox.setAlignment(Pos.CENTER);
+
 		scene4 = new Scene(accountInfoPage, screenbounds.getWidth(), screenbounds.getHeight());
 
 		// End Scene 4
@@ -472,15 +492,27 @@ public class Main extends Application implements EventHandler<ActionEvent> {
 		cartPageMainPane.setStyle(
 				"-fx-background-image: url('https://img.freepik.com/free-psd/top-view-free-food-delivery-assortment-with-background-mock-up_23-2148421296.jpg?t=st=1649334513~exp=1649335113~hmac=b77793ec57018e5086c85a58d74ef43481b17cf0f8bf8284edef8efd9f6236c9&w=1060');"
 						+ "-fx-background-size: cover;");
+	
+		// The pane holding the panes on the left side of the screen
+		HBox cartPage_Left = new HBox();
+		cartPage_Left.setAlignment(Pos.CENTER);
+		cartPage_Left.setStyle("-fx-background-color: #D3D3D3; -fx-background-radius: 10;");
+		cartPage_Left.setPrefWidth(325);
+		cartPage_Left.setPrefHeight(325);
+		cartPage_Left.setMaxSize(450, 450);
 
+		// The pane that will display items in the user's cart
+		// TODO:  Currently, text is not displaying when the user adds items to their cart.
+		VBox cartPageItemViewBox = new VBox();
+		Text cartItemsText = new Text(currentUser.getCart().printCartItems());
+		cartPageItemViewBox.getChildren().add(cartItemsText);
+
+		// The top of the cart page, which will hold the buttons
 		GridPane cartPageBannerGridBox = new GridPane();
 		cartPageBannerGridBox.setAlignment(Pos.TOP_RIGHT);
 		cartPageBannerGridBox.setHgap(1);
 		cartPageBannerGridBox.setVgap(1);
 		cartPageBannerGridBox.setGridLinesVisible(false);
-
-		VBox cartItemsVBox = new VBox();
-		
 
 		Button cartPageSignOutButton = new Button("Sign Out");
 		cartPageSignOutButton.setOnAction(e -> {
@@ -495,49 +527,18 @@ public class Main extends Application implements EventHandler<ActionEvent> {
 			window.setScene(scene3);
 		});
 
+		// The pane that will display the buttons
 		HBox cartPageHeaderButtons = new HBox();
 		cartPageHeaderButtons.getChildren().addAll(cartPageSignOutButton, cartPageMenuButton);
 		cartPageHeaderButtons.setSpacing(5);
 
 		cartPageBannerGridBox.add(cartPageHeaderButtons, 0, 1);
 		cartPageMainPane.setTop(cartPageBannerGridBox);
-		cartPageMainPane.setLeft(cartItemsVBox);
+		cartPageMainPane.setLeft(cartPage_Left);
+		BorderPane.setMargin(cartPage_Left, new Insets(150, 0, 0, 25));
+		cartPage_Left.getChildren().add(cartPageItemViewBox);
 
 		scene5 = new Scene(cartPageMainPane, screenbounds.getWidth(), screenbounds.getHeight());
-
-		// Scene 6
-		// ----------
-
-		// Panes
-
-		GridPane layout3 = new GridPane();
-		layout3.setAlignment(Pos.CENTER);
-		layout3.setHgap(10);
-		layout3.setVgap(10);
-		layout3.setPadding(new Insets(25, 25, 25, 25));
-		// layout3.getChildren().addAll(button3);
-		// scene3 = new Scene(layout3, 300,300);
-
-		Label total = new Label("Total: $");
-		layout3.add(total, 0, 1);
-
-		// Button 4
-		Button button4 = new Button("Go to Ingredients page");
-		button4.setText("Ingredients");
-		button4.setOnAction(e -> window.setScene(scene4));
-
-		// Layout 5
-		GridPane layout4 = new GridPane();
-		layout4.setAlignment(Pos.CENTER);
-		layout4.setHgap(10);
-		layout4.setVgap(10);
-		layout4.setPadding(new Insets(25, 25, 25, 25));
-		layout4.getChildren().addAll(button4);
-		// scene4 = new Scene(layout4, 300,300);
-
-		// Label total = new
-		// Label("Breakfast Sandwich: /nBiscuit /nCheese /nEgg /nSausage /nButter");
-		layout4.add(total, 0, 1);
 
 		// Display the first scene at program launch
 		window.setScene(scene1);

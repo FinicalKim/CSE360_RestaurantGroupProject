@@ -32,12 +32,18 @@ public class Cart {
 
     public String printCartItems(){
         
+        int itemCount = 1;
+
         ListIterator<Food> iterator = this.cartItems.listIterator();
         
         String cartItemsString = "";
 
+        System.out.println("\nThere are " + this.getNumberofItems() + " items in your cart.");
+        System.out.println("---------\n");
         while (iterator.hasNext()){
-            cartItemsString = cartItemsString + iterator.next().getFoodName() + "\n";
+            cartItemsString = cartItemsString + itemCount + ".) " + iterator.next().getFoodName() + " : $" + String.format("%.2f", iterator.previous().getFoodPrice()) + "\n";
+            iterator.next();
+            itemCount++;
         }
         
         return cartItemsString;
@@ -97,23 +103,26 @@ public class Cart {
     }
 
 
-/*
-public static void main(String[] args)
-{
-    Cart myCart = new Cart();
-    Food banana = new Food("Banana", "food_banana", 1);
-    Food tomato = new Food("Tomato", "food_tomato", 2);
-    myCart.addItem(banana);
-    myCart.addItem(tomato);
-    myCart.addItem(tomato);
-    System.out.println("There are " + myCart.getNumberofItems() + " items in your cart.");
-    myCart.printCartItems();
-    System.out.println("Your subtotal is : $" + String.format("%.2f", myCart.getSubtotal()));
-    myCart.removeItem("food_banana", myCart);
-    System.out.println("There are " + myCart.getNumberofItems() + " items in your cart.");
-    myCart.printCartItems();
-    System.out.println("Your subtotal is : $" + String.format("%.2f", myCart.getSubtotal()));
-}
-*/
+    // TESTING PURPOSES ONLY; DELETE WHEN FINISHED
+
+    /*
+    public static void main(String[] args)
+    {
+        Cart myCart = new Cart();
+        Food banana = new Food("Banana", "food_banana", 1);
+        Food tomato = new Food("Tomato", "food_tomato", 2);
+        Beverage drPepper = new Beverage("Dr_Pepper", "LARGE");
+        myCart.addItem(drPepper);
+        myCart.addItem(banana);
+        myCart.addItem(tomato);
+        myCart.addItem(tomato);
+        System.out.println(myCart.printCartItems());
+        System.out.println("Your subtotal is : $" + String.format("%.2f", myCart.getSubtotal()));
+        myCart.removeItem("food_banana", myCart);
+        System.out.println(myCart.printCartItems());
+        System.out.println("Your subtotal is : $" + String.format("%.2f", myCart.getSubtotal()));
+    }
+    */
 
 }
+

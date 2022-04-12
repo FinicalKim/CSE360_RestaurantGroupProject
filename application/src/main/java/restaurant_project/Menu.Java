@@ -1,30 +1,65 @@
 package restaurant_project;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.ListIterator;
 
 public class Menu{
- private LinkedList<Food> foodMenu = new LinkedList<LinkedList>;
+
+ private ArrayList<Food> menu= new ArrayList<Food>();
+ private String menuName = null;
  
- Breakfast breakfastSandwich = new Breakfast("Breakfast Sandwich", 3.99);
- foodMenu.add(breakfastSandwich);
- 
- Beverage smallSoda = new Beverage("Soda",0.99, small);
- foodMenu.add(smallSoda);
- 
- Beverage mediumSoda = new Beverage("Soda", 1.99, medium);
- foodMenu.add(mediumSoda);
- 
- Beverage largeSoda = new Beverage("Soda", 2.99, large);
- foodMenu.add(largeSoda);
- 
-  //if the restaurant user wants to delete an item off the menu
- public static void insertFood(Food newFood){
-  foodMenu.add(newFood);
+ public Menu() {
+
+    this.menu = null;
+    this.menuName = "default_empty_menu";
+ }
+
+
+ public Menu(String menuName) {
+
+    this.menuName = menuName;
+    Beverage smallSoda = new Beverage("Small soda", "small");
+    Beverage mediumSoda = new Beverage("Medium soda", "medium");
+    Beverage largeSoda = new Beverage("Large soda", "large");
+    this.menu.add(smallSoda);
+    this.menu.add(mediumSoda);
+    this.menu.add(largeSoda);
+ }
+
+
+ // Mutator methods
+
+ public void setMenuName(String menuName) {
+     
+    this.menuName = menuName;
+
+ }
+
+ // Accessor methods
+
+ public String getMenuName() {
+
+    return this.menuName + "\n------------";
+
+ }
+
+ public void printMenu() {
+
+    ListIterator<Food> iterator = this.menu.listIterator();
+
+    while (iterator.hasNext()) {
+        System.out.println(iterator.next().getFoodName() + ": " + iterator.previous().getFoodPrice());
+        iterator.next();
+    }
  }
  
-  //if the restaurant user wants to delete an item off the menu
- public static void deleteFood(foodToDelete){
-  foodMenu.remove(foodToDelete);
+
+ /*
+ public static void main(String[] args){
+     Menu newMenu = new Menu("Tyler's Restaurant");
+     System.out.println("\n" + newMenu.getMenuName() + "\n");
+     newMenu.printMenu();
  }
-  
+ */
+
 }

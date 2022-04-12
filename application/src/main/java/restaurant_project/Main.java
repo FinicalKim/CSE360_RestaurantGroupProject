@@ -1,8 +1,10 @@
 package restaurant_project;
 
+
+
 import java.io.*;
 import java.io.FileInputStream;
-import java.io.FileNotFoundException;
+import java.text.DecimalFormat;
 import java.util.stream.Stream;
 import javafx.animation.Interpolator;
 import javafx.animation.Timeline;
@@ -30,8 +32,9 @@ import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.PasswordField;
-import javafx.scene.control.TextArea;
+import javafx.scene.control.ScrollPane;
 import javafx.scene.control.TextField;
+import javafx.scene.control.ScrollPane.ScrollBarPolicy;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.ColumnConstraints;
 import javafx.scene.layout.CornerRadii;
@@ -41,12 +44,11 @@ import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
 import javafx.scene.text.FontWeight;
-import javafx.scene.text.Text;
 import javafx.scene.text.TextFlow;
 import javafx.stage.Screen;
-import javafx.stage.Stage;
 
 public class Main extends Application implements EventHandler<ActionEvent> {
+
 	Stage window;
 	Scene scene1, scene2, scene3, scene4, scene5, scene6;
 
@@ -58,11 +60,13 @@ public class Main extends Application implements EventHandler<ActionEvent> {
 
 	public void start(Stage primaryStage) throws Exception, InterruptedException {
 
-		// *DEBUG AND TESTING VARIABLE FOR NOW*
-		Customer currentUser = new Customer("DEFAULT", "DEFAULT");
+		// *DEBUG AND TESTING USER VARIABLE FOR NOW*
+		Customer currentUser = new Customer("d", "d");
 
-		// Display Window Set-Up
-		// ----------------------
+		//For formatting money
+		DecimalFormat df = new DecimalFormat("#.00");
+
+		// Display/stage set-up
 		window = primaryStage; // main display window
 
 		// Title the window "OrderUp"
@@ -78,45 +82,32 @@ public class Main extends Application implements EventHandler<ActionEvent> {
 		// Scene 1 - Sign In Page
 		// ---------------
 
-		// Panes
-		BorderPane signInPane = new BorderPane(); // the main pane
-		signInPane.setStyle(
+		// Page pane layout
+		BorderPane signInMainBorderPane = new BorderPane(); // the main pane for the sign-in page
+		signInMainBorderPane.setStyle(
 				"-fx-background-image: url('https://thumbs.dreamstime.com/z/food-lunch-boxes-delivery-food-ukrainian-cuisine-wooden-background-top-view-copy-space-food-lunch-boxes-delivery-151206649.jpg');");
-		HBox greetingPane = new HBox(); // the greeting at the top of the main 'signInPane' pane
-		greetingPane.setStyle("-fx-background-color: rgba(0, 0, 0, 0.7); -fx-background-radius: 10;"); // set glassy background for banner
-																										
-		greetingPane.setMaxWidth(700);
-		;
-		VBox centerVBox = new VBox(); // pane to hold the username and password labels and text fields
-		centerVBox.setMaxSize(350, 250);
-		setAnimatedBorder(centerVBox);
-		centerVBox.setStyle("-fx-background-color: rgba(0, 100, 100, 0.5); -fx-background-radius: 10;"); // 'rgba' value with 0.5 set for alpha value for transparency
-																											
-		HBox underButtons = new HBox(); // pane to hold buttons displayed underneath text fields
+		
+		HBox signInPageGreetingPane = new HBox(); // the greeting at the top of the main 'signInMainBorderPane' pane
+		signInPageGreetingPane.setStyle("-fx-background-color: rgba(0, 0, 0, 0.7); -fx-background-radius: 10;"); // set glassy background for banner																					
+		signInPageGreetingPane.setMaxWidth(700);
+		signInMainBorderPane.setTop(signInPageGreetingPane);
+		BorderPane.setAlignment(signInPageGreetingPane, Pos.TOP_CENTER);
+		BorderPane.setMargin(signInPageGreetingPane, new Insets(100, 0, 0, 0));
 
-		signInPane.setTop(greetingPane);
-		signInPane.setAlignment(greetingPane, Pos.TOP_CENTER);
-		signInPane.setMargin(greetingPane, new Insets(100, 0, 0, 0));
-		;
-		signInPane.setCenter(centerVBox);
+		VBox signInPageCentralVBox = new VBox(); // pane to hold the signInPageUsername and password labels and text fields
+		signInPageCentralVBox.setMaxSize(350, 250);
+		setAnimatedBorder(signInPageCentralVBox);
+		signInPageCentralVBox.setStyle("-fx-background-color: rgba(0, 100, 100, 0.5); -fx-background-radius: 10;"); // 'rgba' value with 0.5 set for alpha value for transparency
+		signInMainBorderPane.setCenter(signInPageCentralVBox);
 
-		// Sign-In Button
-		Button signInButton = new Button("Sign in");
-		final Text signInButtonActionText = new Text();
-
-		// Create Account Button
-		Button createmenuPageAccountButton = new Button("Create Account");
-		createmenuPageAccountButton.setOnAction(e -> {
-			window.setScene(scene2);
-		});
-		signInPane.getChildren().addAll(signInButton, createmenuPageAccountButton);
+		HBox signInPageUnderButtons = new HBox(); // pane to hold buttons displayed underneath text fields in the central VBox
 
 		// Header/Greeting Area
 		TextFlow orderUpFlow = new TextFlow();
 
-		Text orderUpRed = new Text("OrderUp");
-		orderUpRed.setFill(Color.LIMEGREEN);
-		orderUpRed.setFont(Font.font("Impact", FontWeight.BOLD, 35));
+		Text orderUpGreen = new Text("OrderUp");
+		orderUpGreen.setFill(Color.LIMEGREEN);
+		orderUpGreen.setFont(Font.font("Impact", FontWeight.BOLD, 35));
 
 		Text greetingStart = new Text("Welcome to ");
 		greetingStart.setFont(Font.font("Impact", FontWeight.BOLD, 30));
@@ -126,81 +117,97 @@ public class Main extends Application implements EventHandler<ActionEvent> {
 		greetingEnd.setFont(Font.font("Impact", FontWeight.BOLD, 30));
 		greetingEnd.setFill(Color.WHITESMOKE);
 
-		orderUpFlow.getChildren().addAll(greetingStart, orderUpRed, greetingEnd);
-		greetingPane.getChildren().add(orderUpFlow);
+		orderUpFlow.getChildren().addAll(greetingStart, orderUpGreen, greetingEnd);
+
+		signInPageGreetingPane.getChildren().add(orderUpFlow);
 
 		// Central Login Area
-		underButtons.setAlignment(Pos.BOTTOM_CENTER);
-		underButtons.setSpacing(10);
-		underButtons.setPadding(new Insets(20, 0, 30, 0));
-		underButtons.getChildren().addAll(signInButton, createmenuPageAccountButton);
 
-		Label loginInstruct = new Label("Please log-in to get started");
-		loginInstruct.setTextFill(Color.LIGHTCYAN);
-		loginInstruct.setPadding(new Insets(0, 0, 25, 0));
+		// Sign-In Button
+		Button signInButton = new Button("Sign in");
+		Text signInButtonActionText = new Text();
 
-		Label userName = new Label("Username:");
-		userName.setTextFill(Color.LIGHTCYAN);
-		TextField userTextField = new TextField();
-		userTextField.setPrefWidth(150);
-		userTextField.setMaxWidth(150);
+		// Create Account Button
+		Button signInPageCreateAccountButton = new Button("Create Account");
+		signInPageCreateAccountButton.setOnAction(e -> {
+			window.setScene(scene2);
+		});
 
-		Label pw = new Label("Password:");
-		pw.setTextFill(Color.LIGHTCYAN);
-		PasswordField pwBox = new PasswordField();
-		pwBox.setPrefWidth(150);
-		pwBox.setMaxWidth(150);
+		signInPageUnderButtons.setAlignment(Pos.BOTTOM_CENTER);
+		signInPageUnderButtons.setSpacing(10);
+		signInPageUnderButtons.setPadding(new Insets(20, 0, 30, 0));
+		signInPageUnderButtons.getChildren().addAll(signInButton, signInPageCreateAccountButton);
 
-		centerVBox.getChildren().addAll(loginInstruct, userName, userTextField, pw, pwBox, underButtons,
+		Label signInPageLoginInstruct = new Label("Please log-in to get started");
+		signInPageLoginInstruct.setTextFill(Color.LIGHTCYAN);
+		signInPageLoginInstruct.setPadding(new Insets(0, 0, 25, 0));
+
+		Label signInPageUserName = new Label("Username:");
+		signInPageUserName.setTextFill(Color.LIGHTCYAN);
+		TextField signInPageUserTextField = new TextField();
+		signInPageUserTextField.setPrefWidth(150);
+		signInPageUserTextField.setMaxWidth(150);
+
+		Label signInPagePasswordLabel = new Label("Password:");
+	 	signInPagePasswordLabel.setTextFill(Color.LIGHTCYAN);
+		PasswordField signInPagePasswordBox = new PasswordField();
+	 	signInPagePasswordBox.setPrefWidth(150);
+	 	signInPagePasswordBox.setMaxWidth(150);
+
+		signInPageCentralVBox.getChildren().addAll(signInPageLoginInstruct, signInPageUserName, signInPageUserTextField, signInPagePasswordLabel, signInPagePasswordBox, signInPageUnderButtons,
 				signInButtonActionText);
-		centerVBox.setAlignment(Pos.CENTER);
+		signInPageCentralVBox.setAlignment(Pos.CENTER);
 
-		// When the user cliks on the 'Sign-In' button on the sign-in page
+		// When the user cliCks on the 'Sign-In' button on the sign-in page
 		signInButton.setOnAction(e -> {
 			signInButtonActionText.setFill(Color.TOMATO);
 			signInButtonActionText.setFont(Font.font("Calibri", FontWeight.BOLD, 15));
 
-			if (currentUser.verifyCredentials(userTextField.getText(), pwBox.getText())) {
+			if (currentUser.verifyCredentials(signInPageUserTextField.getText(), signInPagePasswordBox.getText())) {
 				signInButtonActionText.setFill(Color.FORESTGREEN);
 				signInButtonActionText.setText("Successfully verified credentials... logging in!");
-				userTextField.clear();
-				pwBox.clear();
+				signInPageUserTextField.clear();
+			 signInPagePasswordBox.clear();
 				currentUser.login();
 				window.setScene(scene3);
 			}
 
 			else {
-				signInButtonActionText.setText("Username and/or password incorrect.");
+				signInButtonActionText.setText("signInPageUsername and/or password incorrect.");
 			}
 		});
 
 		// Display 'scene1' with the default window size
-		scene1 = new Scene(signInPane, screenbounds.getWidth(), screenbounds.getHeight());
+		scene1 = new Scene(signInMainBorderPane, screenbounds.getWidth(), screenbounds.getHeight());
 
-		// End Scene 1
-		// ----------------------------
+
 
 		// Scene 2 - Create Account Page
-		// -----------------
+		// -----------------------------
 
 		// Panes
-		BorderPane createAccountPane = new BorderPane(); // Main pane for 'scene2'
-		createAccountPane.setStyle(
+		BorderPane createAccountPagePane = new BorderPane(); // Main pane for 'scene2'
+		createAccountPagePane.setStyle(
 				"-fx-background-image: url('https://thumbs.dreamstime.com/z/food-delivery-workdesk-paper-bags-flatware-table-background-top-view-mock-up-restourant-gray-91618763.jpg');"
 						+ "-fx-background-size: cover;");
-		VBox createAccountCentralVBox = new VBox();
-		createAccountCentralVBox.setStyle("-fx-background-color: rgba(0,0,0, 0.7);");
-		createAccountCentralVBox.setMaxSize(350, 350);
-		HBox createAccountGreeting = new HBox();
-		createAccountGreeting.setStyle("-fx-background-color: rgba(0,0,0, 0.7); -fx-background-radius: 10;");
-		createAccountGreeting.setMaxSize(500, 500);
-		HBox underButtons2 = new HBox();
-		HBox underButtons2Text = new HBox();
 
-		createAccountPane.setTop(createAccountGreeting);
-		createAccountPane.setAlignment(createAccountGreeting, Pos.TOP_CENTER);
-		createAccountPane.setMargin(createAccountGreeting, new Insets(100, 0, 0, 0));
-		createAccountPane.setCenter(createAccountCentralVBox);
+		VBox createAccountPageCentralVBox = new VBox();
+		createAccountPageCentralVBox.setStyle("-fx-background-color: rgba(0,0,0, 0.7);");
+		createAccountPageCentralVBox.setMaxSize(350, 350);
+
+		HBox createAccountPageHeaderBox = new HBox();
+		createAccountPageHeaderBox.setStyle("-fx-background-color: rgba(0,0,0, 0.7); -fx-background-radius: 10;");
+		createAccountPageHeaderBox.setMaxSize(500, 500);
+		BorderPane.setAlignment(createAccountPageHeaderBox, Pos.TOP_CENTER);
+		createAccountPagePane.setTop(createAccountPageHeaderBox);
+		BorderPane.setMargin(createAccountPageHeaderBox, new Insets(100, 0, 0, 0));
+		createAccountPagePane.setCenter(createAccountPageCentralVBox);
+
+		HBox createAccountPageUnderButtons2 = new HBox();
+
+		HBox createAccountPageUnderButtons2Text = new HBox();
+
+		// Create Account Page buttons
 
 		// Submit Button
 		Button submitButton = new Button("Submit");
@@ -208,57 +215,57 @@ public class Main extends Application implements EventHandler<ActionEvent> {
 		// Back Button
 		Button backButton = new Button("Back");
 
-		underButtons2.getChildren().addAll(submitButton, backButton);
-		underButtons2.setSpacing(10);
-		underButtons2.setAlignment(Pos.CENTER);
-		underButtons2.setPadding(new Insets(20, 0, 0, 0));
+		createAccountPageUnderButtons2.getChildren().addAll(submitButton, backButton);
+		createAccountPageUnderButtons2.setSpacing(10);
+		createAccountPageUnderButtons2.setAlignment(Pos.CENTER);
+		createAccountPageUnderButtons2.setPadding(new Insets(20, 0, 0, 0));
 
 		// Header/Greeting Area
-		createAccountGreeting.setAlignment(Pos.CENTER);
+		createAccountPageHeaderBox.setAlignment(Pos.CENTER);
 		Label accountGreeting = new Label("Create a New Account");
 		accountGreeting.setFont(Font.font("Impact", FontWeight.BOLD, 40));
 		accountGreeting.setTextFill(Color.WHITESMOKE);
-		createAccountGreeting.getChildren().add(accountGreeting);
+		createAccountPageHeaderBox.getChildren().add(accountGreeting);
 
 		// Central Account Creation Area
-		Label usernameInstructLabel = new Label("Please choose a username");
-		usernameInstructLabel.setTextFill(Color.WHITESMOKE);
-		TextField userTextField2 = new TextField();
-		userTextField2.setMaxWidth(150);
+		Label createAccountPageUsernameInstructLabel = new Label("Please choose a username");
+		createAccountPageUsernameInstructLabel.setTextFill(Color.WHITESMOKE);
+		TextField createAccountPageUserTextField = new TextField();
+		createAccountPageUserTextField.setMaxWidth(150);
 
-		Label passwordInstructLabel = new Label("Please choose a password for your account");
-		passwordInstructLabel.setTextFill(Color.WHITESMOKE);
-		PasswordField pwField2 = new PasswordField();
-		pwField2.setMaxWidth(150);
+		Label createAccountPagePasswordInstructLabel = new Label("Please choose a password for your account");
+		createAccountPagePasswordInstructLabel.setTextFill(Color.WHITESMOKE);
+		PasswordField createAccountPagePasswordField = new PasswordField();
+		createAccountPagePasswordField.setMaxWidth(150);
 
-		Label contactNameLabel = new Label("Please enter your first and last name");
-		contactNameLabel.setTextFill(Color.WHITESMOKE);
-		TextField contactNameField = new TextField();
-		contactNameField.setMaxWidth(150);
+		Label createAccountPageContactNameLabel = new Label("Please enter your first and last name");
+		createAccountPageContactNameLabel.setTextFill(Color.WHITESMOKE);
+		TextField createAccountPageContactNameField = new TextField();
+		createAccountPageContactNameField.setMaxWidth(150);
 
-		Label emailAddressLabel = new Label("Please enter a contact email");
-		emailAddressLabel.setTextFill(Color.WHITESMOKE);
-		TextField emailAddressField = new TextField();
-		emailAddressField.setMaxWidth(150);
+		Label createAccountPageEmailAddressLabel = new Label("Please enter a contact email");
+		createAccountPageEmailAddressLabel.setTextFill(Color.WHITESMOKE);
+		TextField createAccountPageEmailAddressField = new TextField();
+		createAccountPageEmailAddressField.setMaxWidth(150);
 
-		Label phoneNumberLabel = new Label("Please enter your phone-number");
-		phoneNumberLabel.setTextFill(Color.WHITESMOKE);
-		TextField phoneNumberField = new TextField();
-		phoneNumberField.setMaxWidth(150);
+		Label createAccountPagePhoneNumberLabel = new Label("Please enter your phone-number");
+		createAccountPagePhoneNumberLabel.setTextFill(Color.WHITESMOKE);
+		TextField createAccountPagePhoneNumberField = new TextField();
+		createAccountPagePhoneNumberField.setMaxWidth(150);
 
 		final Text actiontarget = new Text();
 		actiontarget.setFill(Color.FIREBRICK);
-		underButtons2Text.getChildren().add(actiontarget);
-		underButtons2Text.setAlignment(Pos.BOTTOM_CENTER);
-		underButtons2Text.setPadding(new Insets(25, 0, 0, 0));
+		createAccountPageUnderButtons2Text.getChildren().add(actiontarget);
+		createAccountPageUnderButtons2Text.setAlignment(Pos.BOTTOM_CENTER);
+		createAccountPageUnderButtons2Text.setPadding(new Insets(25, 0, 0, 0));
 
-		createAccountCentralVBox.getChildren().addAll(usernameInstructLabel, userTextField2, passwordInstructLabel,
-				pwField2,
-				contactNameLabel, contactNameField,
-				emailAddressLabel, emailAddressField, phoneNumberLabel, phoneNumberField, underButtons2, actiontarget);
+		createAccountPageCentralVBox.getChildren().addAll(createAccountPageUsernameInstructLabel, createAccountPageUserTextField, createAccountPagePasswordInstructLabel,
+				createAccountPagePasswordField,
+				createAccountPageContactNameLabel, createAccountPageContactNameField,
+				createAccountPageEmailAddressLabel, createAccountPageEmailAddressField, createAccountPagePhoneNumberLabel, createAccountPagePhoneNumberField, createAccountPageUnderButtons2, actiontarget);
 
-		createAccountCentralVBox.setSpacing(3);
-		createAccountCentralVBox.setAlignment(Pos.CENTER);
+		createAccountPageCentralVBox.setSpacing(3);
+		createAccountPageCentralVBox.setAlignment(Pos.CENTER);
 
 		backButton.setOnAction(e -> {
 			actiontarget.setText("");
@@ -272,9 +279,9 @@ public class Main extends Application implements EventHandler<ActionEvent> {
 		submitButton.setOnAction(e -> {
 
 			// Check for empty fields
-			if (userTextField2.getText().isEmpty() || pwField2.getText().isEmpty()
-					|| contactNameField.getText().isEmpty() ||
-					emailAddressField.getText().isEmpty() || phoneNumberField.getText().isEmpty()) {
+			if (createAccountPageUserTextField.getText().isEmpty() || createAccountPagePasswordField.getText().isEmpty()
+					|| createAccountPageContactNameField.getText().isEmpty() ||
+					createAccountPageEmailAddressField.getText().isEmpty() || createAccountPagePhoneNumberField.getText().isEmpty()) {
 				actiontarget.setFill(Color.TOMATO);
 				actiontarget.setText("You left a field empty.");
 
@@ -283,18 +290,18 @@ public class Main extends Application implements EventHandler<ActionEvent> {
 			// Set 'currentUser' attributes to String value inputs
 			else if (currentUser.getUserID() == "DEFAULT" && currentUser.getPassword() == "DEFAULT") {
 				// Set attributes
-				currentUser.setUserID(userTextField2.getText());
-				currentUser.setPassword(pwField2.getText());
-				currentUser.setContactName(contactNameField.getText());
-				currentUser.setEmail(emailAddressField.getText());
-				currentUser.setPhoneNumber(phoneNumberField.getText());
+				currentUser.setUserID(createAccountPageUserTextField.getText());
+				currentUser.setPassword(createAccountPagePasswordField.getText());
+				currentUser.setContactName(createAccountPageContactNameField.getText());
+				currentUser.setEmail(createAccountPageEmailAddressField.getText());
+				currentUser.setPhoneNumber(createAccountPagePhoneNumberField.getText());
 
 				// Clear out the text fields
-				userTextField2.clear();
-				pwField2.clear();
-				contactNameField.clear();
-				emailAddressField.clear();
-				phoneNumberField.clear();
+				createAccountPageUserTextField.clear();
+			 	createAccountPagePasswordField.clear();
+				createAccountPageContactNameField.clear();
+				createAccountPageEmailAddressField.clear();
+				createAccountPagePhoneNumberField.clear();
 
 				// Display success message
 				actiontarget.setFill(Color.FORESTGREEN);
@@ -308,10 +315,9 @@ public class Main extends Application implements EventHandler<ActionEvent> {
 
 		});
 
-		scene2 = new Scene(createAccountPane, screenbounds.getWidth(), screenbounds.getHeight());
+		scene2 = new Scene(createAccountPagePane, screenbounds.getWidth(), screenbounds.getHeight());
 
-		// End Scene 2
-		// -----------------------
+
 
 		// Scene 3 - Menu Page
 		// -------------------
@@ -319,7 +325,7 @@ public class Main extends Application implements EventHandler<ActionEvent> {
 		// Panes
 		GridPane menuPageGridPane_Left = new GridPane();
 		menuPageGridPane_Left.setAlignment(Pos.CENTER);
-		menuPageGridPane_Left.setGridLinesVisible(true); // set 'true' to see grid-lines
+		menuPageGridPane_Left.setGridLinesVisible(false); // set 'true' to see grid-lines
 		menuPageGridPane_Left.setHgap(10);
 		menuPageGridPane_Left.setVgap(10);
 		menuPageGridPane_Left.setPadding(new Insets(0, 10, 0, 10));
@@ -428,8 +434,32 @@ public class Main extends Application implements EventHandler<ActionEvent> {
 		Button addBiscuit = new Button("Add Biscuit");
 		addBiscuit.setOnAction(e -> {
 
-			currentUser.getCart().addItem(new Food("Biscuit", "food_biscuit", 1));
-			System.out.println(currentUser.getCart().printCartItems());
+			currentUser.getCart().addItem(new Food("Biscuit", "food_biscuit", 1.00));
+			
+		});
+
+		Button addCheese = new Button("Add Cheese");
+		addCheese.setOnAction(e -> {
+
+			currentUser.getCart().addItem(new Food("Cheese", "food_cheese", 0.99));
+		});
+
+		Button addEgg = new Button("Add Egg");
+		addEgg.setOnAction(e -> {
+
+			currentUser.getCart().addItem(new Food("Egg", "food_egg", 1.39));
+		});
+
+		Button addSausage = new Button("Add Sausage");
+		addSausage.setOnAction(e -> {
+
+			currentUser.getCart().addItem(new Food("Sausage", "food_sausage", 2.25));
+		});
+
+		Button addButter = new Button ("Add Butter");
+		addButter.setOnAction(e -> {
+
+			currentUser.getCart().addItem(new Food("Butter", "food_butter", 0.15));
 		});
 
 
@@ -439,16 +469,18 @@ public class Main extends Application implements EventHandler<ActionEvent> {
 		menuPageGridPane_Left.add(addBiscuit, 2, 0);
 		menuPageGridPane_Left.add(cheeseImgV, 0, 1);
 		menuPageGridPane_Left.add(cheeseLabel, 1, 1);
+		menuPageGridPane_Left.add(addCheese, 2, 1);
 		menuPageGridPane_Left.add(eggImgV, 0, 2);
 		menuPageGridPane_Left.add(eggLabel, 1, 2);
+		menuPageGridPane_Left.add(addEgg, 2, 2);
 		menuPageGridPane_Left.add(sausageImgV, 0, 3);
 		menuPageGridPane_Left.add(sausageLabel, 1, 3);
+		menuPageGridPane_Left.add(addSausage, 2, 3);
 		menuPageGridPane_Left.add(butterImgV, 0, 4);
 		menuPageGridPane_Left.add(butterLabel, 1, 4);
+		menuPageGridPane_Left.add(addButter, 2, 4);
 
 		scene3 = new Scene(menuPane, screenbounds.getWidth(), screenbounds.getHeight());
-
-		// End Scene 3
 
 		// Scene 4 - Account Information Page
 		// ----------
@@ -468,51 +500,62 @@ public class Main extends Application implements EventHandler<ActionEvent> {
 
 		accountInfoPage.setCenter(accountInfoPageCentralVBox);
 
-		//TODO: Need to refactor into using Stages in order to execute code ONLY when certain stages are shown.  As of right now
-		// the 'get()' methods are immediately called upon instantiation of the 'currentUser', resulting in these labels
-		// being given a string + null value.
-		Label userNameLabel_AccInfo = new Label("Username: " + currentUser.getUserID());
-		userNameLabel_AccInfo.setTextFill(Color.WHITESMOKE);
-		Label contactNameLabel_AccInfo = new Label("Contact Name: " + currentUser.getContactName());
-		contactNameLabel_AccInfo.setTextFill(Color.WHITESMOKE);
-		Label emailLabel_AccInfo = new Label("Email: " + currentUser.getEmail());
+		// Labels to hold and display the user's account information
+		Label signInPageUserNameLabel_AccInfo = new Label();
+		signInPageUserNameLabel_AccInfo.setTextFill(Color.WHITESMOKE);
+		Label createAccountPageContactNameLabel_AccInfo = new Label();
+		createAccountPageContactNameLabel_AccInfo.setTextFill(Color.WHITESMOKE);
+		Label emailLabel_AccInfo = new Label();
 		emailLabel_AccInfo.setTextFill(Color.WHITESMOKE);
-		Label phoneNumberlabel_AccInfo = new Label("Phone Number: " + currentUser.getPhoneNumber());
-		phoneNumberlabel_AccInfo.setTextFill(Color.WHITESMOKE);
-		accountInfoPageCentralVBox.getChildren().addAll(userNameLabel_AccInfo, contactNameLabel_AccInfo, emailLabel_AccInfo, phoneNumberlabel_AccInfo);
+		Label createAccountPagePhoneNumberlabel_AccInfo = new Label();
+		createAccountPagePhoneNumberlabel_AccInfo.setTextFill(Color.WHITESMOKE);
+		accountInfoPageCentralVBox.getChildren().addAll(signInPageUserNameLabel_AccInfo, createAccountPageContactNameLabel_AccInfo, emailLabel_AccInfo, createAccountPagePhoneNumberlabel_AccInfo);
 		accountInfoPageCentralVBox.setAlignment(Pos.CENTER);
 
 		scene4 = new Scene(accountInfoPage, screenbounds.getWidth(), screenbounds.getHeight());
 
-		// End Scene 4
-
 		// Scene 5 - Cart Page
 		// -----------
+
 		BorderPane cartPageMainPane = new BorderPane();
 		cartPageMainPane.setStyle(
 				"-fx-background-image: url('https://img.freepik.com/free-psd/top-view-free-food-delivery-assortment-with-background-mock-up_23-2148421296.jpg?t=st=1649334513~exp=1649335113~hmac=b77793ec57018e5086c85a58d74ef43481b17cf0f8bf8284edef8efd9f6236c9&w=1060');"
 						+ "-fx-background-size: cover;");
-	
-		// The pane holding the panes on the left side of the screen
-		HBox cartPage_Left = new HBox();
-		cartPage_Left.setAlignment(Pos.CENTER);
-		cartPage_Left.setStyle("-fx-background-color: #D3D3D3; -fx-background-radius: 10;");
-		cartPage_Left.setPrefWidth(325);
-		cartPage_Left.setPrefHeight(325);
-		cartPage_Left.setMaxSize(450, 450);
 
 		// The pane that will display items in the user's cart
-		// TODO:  Currently, text is not displaying when the user adds items to their cart.
 		VBox cartPageItemViewBox = new VBox();
-		Text cartItemsText = new Text(currentUser.getCart().printCartItems());
-		cartPageItemViewBox.getChildren().add(cartItemsText);
+		cartPageItemViewBox.setStyle("-fx-background-color: #d3d3d3; -fx-background-radius: 10;");
+		cartPageItemViewBox.setPrefWidth(350);
+		cartPageItemViewBox.setMaxHeight(450);
+		Label yourCartLabel = new Label("Your Cart Items:");
+		yourCartLabel.setTextFill(Color.CRIMSON);
+		yourCartLabel.setFont(Font.font("Calibri", FontWeight.BOLD, 15));
+		yourCartLabel.setUnderline(true);
+		yourCartLabel.setPadding(new Insets(10,0,0,20));
+		HBox cartLabelHBox = new HBox();
+		cartLabelHBox.getChildren().add(yourCartLabel);
+		cartPageItemViewBox.getChildren().add(cartLabelHBox);
+		Label cartItemsText = new Label();
+		cartItemsText.setPadding(new Insets(25,0,0,20));
+		cartItemsText.setFont(Font.font("Calibri", 10));
+		HBox cartItemsHBox = new HBox();
+		cartItemsHBox.getChildren().add(cartItemsText);
+		//cartItemsHBox.setBorder(new Border(new BorderStroke(Color.BLACK, BorderStrokeStyle.SOLID, new CornerRadii(5), new BorderWidths(2))));
+		cartPageItemViewBox.getChildren().add(cartItemsHBox);
+		HBox subtotalBox = new HBox();
+		subtotalBox.setPadding(new Insets(20,0,0,20));
+		//subtotalBox.setBorder(new Border(new BorderStroke(Color.BLACK, BorderStrokeStyle.SOLID, new CornerRadii(5), new BorderWidths(2))));
+		cartPageItemViewBox.getChildren().add(subtotalBox);
+		Label cartPageSubtotalLabel = new Label();
+		cartPageSubtotalLabel.setFont(Font.font("Calibri", FontWeight.BOLD, 15));
+		subtotalBox.getChildren().add(cartPageSubtotalLabel);
 
 		// The top of the cart page, which will hold the buttons
 		GridPane cartPageBannerGridBox = new GridPane();
 		cartPageBannerGridBox.setAlignment(Pos.TOP_RIGHT);
 		cartPageBannerGridBox.setHgap(1);
 		cartPageBannerGridBox.setVgap(1);
-		cartPageBannerGridBox.setGridLinesVisible(false);
+		cartPageBannerGridBox.setGridLinesVisible(true);
 
 		Button cartPageSignOutButton = new Button("Sign Out");
 		cartPageSignOutButton.setOnAction(e -> {
@@ -534,9 +577,8 @@ public class Main extends Application implements EventHandler<ActionEvent> {
 
 		cartPageBannerGridBox.add(cartPageHeaderButtons, 0, 1);
 		cartPageMainPane.setTop(cartPageBannerGridBox);
-		cartPageMainPane.setLeft(cartPage_Left);
-		BorderPane.setMargin(cartPage_Left, new Insets(150, 0, 0, 25));
-		cartPage_Left.getChildren().add(cartPageItemViewBox);
+		cartPageMainPane.setLeft(cartPageItemViewBox);
+		BorderPane.setMargin(cartPageItemViewBox, new Insets(150, 0, 0, 25));
 
 		scene5 = new Scene(cartPageMainPane, screenbounds.getWidth(), screenbounds.getHeight());
 
@@ -544,13 +586,56 @@ public class Main extends Application implements EventHandler<ActionEvent> {
 		window.setScene(scene1);
 		window.show();
 
+		// A listener event that will execute code when a scene changes from 'oldScene' to 'newScene'
+		window.sceneProperty().addListener((Scene, oldScene, newScene) -> {
+
+			if(oldScene == scene1){
+				System.out.println("Transition from scene 1");
+			}
+
+			else if (oldScene == scene2){
+				System.out.println("Transition from scene 2");
+			}
+
+			else if (oldScene == scene3){
+				System.out.println("Transition from scene 3");
+			}
+
+			else if (oldScene == scene4){
+				System.out.println("Transition from scene 4");
+			}
+
+			if (newScene == scene3) { // Menu Page
+
+			}
+
+			if (newScene == scene4) { // Account information page transition
+				signInPageUserNameLabel_AccInfo.setText("signInPageUsername: " + currentUser.getUserID());
+				createAccountPageContactNameLabel_AccInfo.setText("Contact Name: " + currentUser.getContactName());
+				emailLabel_AccInfo.setText("Email: " + currentUser.getEmail());
+				createAccountPagePhoneNumberlabel_AccInfo.setText("Phone: " + currentUser.getPhoneNumber());
+			}
+
+			if (newScene == scene5) { // Cart page transition
+				cartItemsText.setText(currentUser.getCart().printCartItems());
+				String subtotalString = df.format(currentUser.getCart().getSubtotal());
+				cartPageSubtotalLabel.setText("Subtotal: $" + subtotalString);
+				
+			}
+
+		});
+
 	}
+
+
+	// END MAIN
+	//--------------
 
 	// Method 'setBorder()': This method will cycle through a series of colors and
 	// uses javafx libraries to create an animated border
 	// effect. Currently implemented only for 'VBox' panes, but can be changed if
 	// needed.
-	private void setAnimatedBorder(VBox centerVBox) {
+	private void setAnimatedBorder(VBox signInPageCentralVBox) {
 		Color[] colors = Stream
 				.of("darkorange", "tomato", "deeppink", "blueviolet", "steelblue", "cornflowerblue", "lightseagreen",
 						"#6fba82", "chartreuse", "crimson")
@@ -566,7 +651,7 @@ public class Main extends Application implements EventHandler<ActionEvent> {
 				.map(lg -> new Border(
 						new BorderStroke(lg, BorderStrokeStyle.SOLID, new CornerRadii(5), new BorderWidths(2))))
 				.map(b -> new KeyFrame(Duration.millis(mills[0] += 250),
-						new KeyValue(centerVBox.borderProperty(), b, Interpolator.EASE_IN)))
+						new KeyValue(signInPageCentralVBox.borderProperty(), b, Interpolator.EASE_IN)))
 				.toArray(KeyFrame[]::new);
 
 		Timeline timeline = new Timeline(keyFrames);

@@ -94,8 +94,8 @@ public class User {
 
 	protected void resetUser()
 	{
-		this.userID = "DEFAULT";
-		this.password = "DEFAULT";
+		this.userID = "d";
+		this.password = "d";
 		this.loginStatus = false;
 		this.contactName = null;
 		this.email = null;

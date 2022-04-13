@@ -32,9 +32,7 @@ import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.PasswordField;
-import javafx.scene.control.ScrollPane;
 import javafx.scene.control.TextField;
-import javafx.scene.control.ScrollPane.ScrollBarPolicy;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.ColumnConstraints;
 import javafx.scene.layout.CornerRadii;
@@ -64,7 +62,7 @@ public class Main extends Application implements EventHandler<ActionEvent> {
 		Customer currentUser = new Customer("d", "d");
 
 		//For formatting money
-		DecimalFormat df = new DecimalFormat("#.00");
+		DecimalFormat df = new DecimalFormat("0.00");
 
 		// Display/stage set-up
 		window = primaryStage; // main display window
@@ -173,7 +171,7 @@ public class Main extends Application implements EventHandler<ActionEvent> {
 			}
 
 			else {
-				signInButtonActionText.setText("signInPageUsername and/or password incorrect.");
+				signInButtonActionText.setText("Username and/or password incorrect.");
 			}
 		});
 
@@ -288,7 +286,7 @@ public class Main extends Application implements EventHandler<ActionEvent> {
 			}
 
 			// Set 'currentUser' attributes to String value inputs
-			else if (currentUser.getUserID() == "DEFAULT" && currentUser.getPassword() == "DEFAULT") {
+			else if (currentUser.getUserID() == "d" && currentUser.getPassword() == "d") {
 				// Set attributes
 				currentUser.setUserID(createAccountPageUserTextField.getText());
 				currentUser.setPassword(createAccountPagePasswordField.getText());
@@ -329,6 +327,8 @@ public class Main extends Application implements EventHandler<ActionEvent> {
 		menuPageGridPane_Left.setHgap(10);
 		menuPageGridPane_Left.setVgap(10);
 		menuPageGridPane_Left.setPadding(new Insets(0, 10, 0, 10));
+		menuPageGridPane_Left.setMaxHeight(600);
+		menuPageGridPane_Left.setStyle("-fx-background-color: #FFE4C4; -fx-background-radius: 10");
 
 		// Header/Greeting
 		GridPane menuPageBannerBox = new GridPane();
@@ -378,6 +378,7 @@ public class Main extends Application implements EventHandler<ActionEvent> {
 		BorderPane menuPane = new BorderPane();
 		menuPane.setLeft(menuPageGridPane_Left);
 		menuPane.setTop(menuPageBannerBox);
+		menuPane.setStyle("-fx-background-image: url('https://www.teahub.io/photos/full/41-417767_restaurant-menu-theme-backgrounds-menu-restaurant.jpg');" + "-fx-background-size: cover;");
 
 		Label biscuitLabel = new Label("Biscuit\n$1.99");
 		Label cheeseLabel = new Label("Cheese\n$0.99");
@@ -490,26 +491,74 @@ public class Main extends Application implements EventHandler<ActionEvent> {
 		accountInfoPage.setStyle(
 				"-fx-background-image: url('https://thumbs.dreamstime.com/z/food-delivery-workdesk-paper-bags-flatware-table-background-top-view-mock-up-restourant-gray-91618763.jpg');"
 						+ "-fx-background-size: cover;");
+		
 		VBox accountInfoPageCentralVBox = new VBox();
-		accountInfoPageCentralVBox.setStyle("-fx-background-color: rgba(0,0,0, 0.7);");
+		accountInfoPageCentralVBox.setStyle("-fx-background-color: rgba(0,0,0, 0.7);" + "-fx-background-radius: 10;");
 		accountInfoPageCentralVBox.setMaxSize(350, 350);
 
-		HBox accountInfoPageGreeting = new HBox();
-		accountInfoPageGreeting.setStyle("-fx-background-color: rgba(0,0,0, 0.7); -fx-background-radius: 10;");
-		accountInfoPageGreeting.setMaxSize(500, 500);
+		// Header/Greeting holder pane
+		GridPane accountInfoPageBannerBox = new GridPane();
+		accountInfoPageBannerBox.setAlignment(Pos.TOP_RIGHT);
+		accountInfoPageBannerBox.setHgap(1);
+		accountInfoPageBannerBox.setVgap(1);
+		accountInfoPageBannerBox.setGridLinesVisible(false);
+		ColumnConstraints column3 = new ColumnConstraints(600);
+		ColumnConstraints column4 = new ColumnConstraints(350);
+		accountInfoPageBannerBox.getColumnConstraints().addAll(column3, column4);
 
 		accountInfoPage.setCenter(accountInfoPageCentralVBox);
+		accountInfoPage.setTop(accountInfoPageBannerBox);
+
+		HBox accountInfoPageHeaderButtons = new HBox();
+
+		HBox accountInfoPageHeaderLabelBox = new HBox();
+		accountInfoPageHeaderLabelBox.setMaxWidth(435);
+		accountInfoPageHeaderLabelBox.setAlignment(Pos.TOP_LEFT);
+		BorderPane.setMargin(accountInfoPageHeaderLabelBox, new Insets(0,0,0,200));
+
+		Label accountInfoPageHeader = new Label("Account Information");
+		accountInfoPageHeader.setTextFill(Color.WHITESMOKE);
+		accountInfoPageHeader.setFont(Font.font("Calibri", FontWeight.EXTRA_BOLD, 50));
+		accountInfoPageHeader.setUnderline(true);
+
+		accountInfoPageHeaderLabelBox.getChildren().add(accountInfoPageHeader);
+		accountInfoPageHeaderLabelBox.setStyle("-fx-background-color: rgba(0,0,0,0.7);" + "-fx-background-radius: 10;");
+		Button accountInfoPageMenuButton = new Button("Menu");
+		accountInfoPageMenuButton.setOnAction(e -> {
+			window.setScene(scene3);
+		});
+
+		Button accountInfoPageCartButton = new Button("Cart");
+		accountInfoPageCartButton.setOnAction(e -> {
+			window.setScene(scene5);
+		});
+
+		Button accountInfoPageSignOutButton = new Button("Sign Out");
+		accountInfoPageSignOutButton.setOnAction(e -> {
+			currentUser.resetUser();
+			window.setScene(scene1);
+			signInButtonActionText.setFill(Color.TOMATO);
+			signInButtonActionText.setText("Signed out successfully");
+		});
+
+		accountInfoPageHeaderButtons.setPadding(new Insets(0,50, 0, 0));
+		accountInfoPageHeaderButtons.getChildren().addAll(accountInfoPageSignOutButton, accountInfoPageMenuButton, accountInfoPageCartButton);
+		accountInfoPageHeaderButtons.setSpacing(5);
+		accountInfoPageHeaderButtons.setAlignment(Pos.CENTER);
+		accountInfoPageHeader.setAlignment(Pos.CENTER);
+		accountInfoPageBannerBox.add(accountInfoPageHeaderButtons, 1, 0);
+		accountInfoPageBannerBox.add(accountInfoPageHeaderLabelBox, 0, 1);
 
 		// Labels to hold and display the user's account information
-		Label signInPageUserNameLabel_AccInfo = new Label();
-		signInPageUserNameLabel_AccInfo.setTextFill(Color.WHITESMOKE);
+		Label accountInformationPageUsernameLabel = new Label();
+		accountInformationPageUsernameLabel.setTextFill(Color.WHITESMOKE);
 		Label createAccountPageContactNameLabel_AccInfo = new Label();
 		createAccountPageContactNameLabel_AccInfo.setTextFill(Color.WHITESMOKE);
 		Label emailLabel_AccInfo = new Label();
 		emailLabel_AccInfo.setTextFill(Color.WHITESMOKE);
 		Label createAccountPagePhoneNumberlabel_AccInfo = new Label();
 		createAccountPagePhoneNumberlabel_AccInfo.setTextFill(Color.WHITESMOKE);
-		accountInfoPageCentralVBox.getChildren().addAll(signInPageUserNameLabel_AccInfo, createAccountPageContactNameLabel_AccInfo, emailLabel_AccInfo, createAccountPagePhoneNumberlabel_AccInfo);
+		accountInfoPageCentralVBox.getChildren().addAll(accountInformationPageUsernameLabel, createAccountPageContactNameLabel_AccInfo, emailLabel_AccInfo, createAccountPagePhoneNumberlabel_AccInfo);
 		accountInfoPageCentralVBox.setAlignment(Pos.CENTER);
 
 		scene4 = new Scene(accountInfoPage, screenbounds.getWidth(), screenbounds.getHeight());
@@ -527,25 +576,31 @@ public class Main extends Application implements EventHandler<ActionEvent> {
 		cartPageItemViewBox.setStyle("-fx-background-color: #d3d3d3; -fx-background-radius: 10;");
 		cartPageItemViewBox.setPrefWidth(350);
 		cartPageItemViewBox.setMaxHeight(450);
+		
 		Label yourCartLabel = new Label("Your Cart Items:");
 		yourCartLabel.setTextFill(Color.CRIMSON);
 		yourCartLabel.setFont(Font.font("Calibri", FontWeight.BOLD, 15));
 		yourCartLabel.setUnderline(true);
 		yourCartLabel.setPadding(new Insets(10,0,0,20));
+		
 		HBox cartLabelHBox = new HBox();
 		cartLabelHBox.getChildren().add(yourCartLabel);
 		cartPageItemViewBox.getChildren().add(cartLabelHBox);
+		
 		Label cartItemsText = new Label();
 		cartItemsText.setPadding(new Insets(25,0,0,20));
-		cartItemsText.setFont(Font.font("Calibri", 10));
+		cartItemsText.setFont(Font.font("Calibri", FontWeight.MEDIUM, 15));
+		
 		HBox cartItemsHBox = new HBox();
 		cartItemsHBox.getChildren().add(cartItemsText);
 		//cartItemsHBox.setBorder(new Border(new BorderStroke(Color.BLACK, BorderStrokeStyle.SOLID, new CornerRadii(5), new BorderWidths(2))));
 		cartPageItemViewBox.getChildren().add(cartItemsHBox);
+		
 		HBox subtotalBox = new HBox();
 		subtotalBox.setPadding(new Insets(20,0,0,20));
 		//subtotalBox.setBorder(new Border(new BorderStroke(Color.BLACK, BorderStrokeStyle.SOLID, new CornerRadii(5), new BorderWidths(2))));
 		cartPageItemViewBox.getChildren().add(subtotalBox);
+		
 		Label cartPageSubtotalLabel = new Label();
 		cartPageSubtotalLabel.setFont(Font.font("Calibri", FontWeight.BOLD, 15));
 		subtotalBox.getChildren().add(cartPageSubtotalLabel);
@@ -555,7 +610,12 @@ public class Main extends Application implements EventHandler<ActionEvent> {
 		cartPageBannerGridBox.setAlignment(Pos.TOP_RIGHT);
 		cartPageBannerGridBox.setHgap(1);
 		cartPageBannerGridBox.setVgap(1);
-		cartPageBannerGridBox.setGridLinesVisible(true);
+		cartPageBannerGridBox.setGridLinesVisible(false);
+
+		Label cartPageGreeting = new Label("Your Cart");
+		cartPageGreeting.setUnderline(true);
+		cartPageGreeting.setFont(Font.font("Calibri", FontWeight.EXTRA_BOLD, 50));
+		cartPageGreeting.setTextFill(Color.CRIMSON);
 
 		Button cartPageSignOutButton = new Button("Sign Out");
 		cartPageSignOutButton.setOnAction(e -> {
@@ -570,12 +630,20 @@ public class Main extends Application implements EventHandler<ActionEvent> {
 			window.setScene(scene3);
 		});
 
+		Button cartPageAccountButton = new Button("Account");
+		cartPageAccountButton.setOnAction(e -> {
+			window.setScene(scene4);
+		});
+
 		// The pane that will display the buttons
 		HBox cartPageHeaderButtons = new HBox();
-		cartPageHeaderButtons.getChildren().addAll(cartPageSignOutButton, cartPageMenuButton);
+		cartPageHeaderButtons.getChildren().addAll(cartPageSignOutButton, cartPageAccountButton, cartPageMenuButton);
 		cartPageHeaderButtons.setSpacing(5);
+		cartPageHeaderButtons.setAlignment(Pos.CENTER);
 
-		cartPageBannerGridBox.add(cartPageHeaderButtons, 0, 1);
+		cartPageBannerGridBox.add(cartPageGreeting, 0, 1);
+		cartPageBannerGridBox.add(cartPageHeaderButtons, 1, 0);
+		cartPageBannerGridBox.getColumnConstraints().addAll(column1, column2);
 		cartPageMainPane.setTop(cartPageBannerGridBox);
 		cartPageMainPane.setLeft(cartPageItemViewBox);
 		BorderPane.setMargin(cartPageItemViewBox, new Insets(150, 0, 0, 25));
@@ -589,28 +657,8 @@ public class Main extends Application implements EventHandler<ActionEvent> {
 		// A listener event that will execute code when a scene changes from 'oldScene' to 'newScene'
 		window.sceneProperty().addListener((Scene, oldScene, newScene) -> {
 
-			if(oldScene == scene1){
-				System.out.println("Transition from scene 1");
-			}
-
-			else if (oldScene == scene2){
-				System.out.println("Transition from scene 2");
-			}
-
-			else if (oldScene == scene3){
-				System.out.println("Transition from scene 3");
-			}
-
-			else if (oldScene == scene4){
-				System.out.println("Transition from scene 4");
-			}
-
-			if (newScene == scene3) { // Menu Page
-
-			}
-
 			if (newScene == scene4) { // Account information page transition
-				signInPageUserNameLabel_AccInfo.setText("signInPageUsername: " + currentUser.getUserID());
+				accountInformationPageUsernameLabel.setText("Username: " + currentUser.getUserID());
 				createAccountPageContactNameLabel_AccInfo.setText("Contact Name: " + currentUser.getContactName());
 				emailLabel_AccInfo.setText("Email: " + currentUser.getEmail());
 				createAccountPagePhoneNumberlabel_AccInfo.setText("Phone: " + currentUser.getPhoneNumber());

@@ -541,8 +541,8 @@ public class Main extends Application implements EventHandler<ActionEvent> {
 		Label butterLabel = new Label("Butter\n$0.15");
 
 		// Load images
-		Image biscuitImg = new Image(
-				new FileInputStream("src/runfx/resources/Images/biscuit.png"));
+		Image biscuitImg = new Image(new FileInputStream(
+				"application\\src\\main\\resources\\Images\\biscuit.png"));
 		ImageView biscuitImgV = new ImageView();
 		biscuitImgV.setImage(biscuitImg);
 		biscuitImgV.setFitWidth(75);
@@ -550,8 +550,8 @@ public class Main extends Application implements EventHandler<ActionEvent> {
 		biscuitImgV.setSmooth(true);
 		biscuitImgV.setCache(true);
 
-		Image cheeseImg = new Image(
-				new FileInputStream("src/runfx/resources/Images/cheese.png"));
+		Image cheeseImg = new Image(new FileInputStream(
+				"application\\src\\main\\resources\\Images\\cheese.png"));
 		ImageView cheeseImgV = new ImageView();
 		cheeseImgV.setImage(cheeseImg);
 		cheeseImgV.setFitWidth(75);
@@ -560,7 +560,7 @@ public class Main extends Application implements EventHandler<ActionEvent> {
 		cheeseImgV.setCache(true);
 
 		Image eggImg = new Image(new FileInputStream(
-				"src/runfx/resources/Images/egg.png"));
+				"application\\src\\main\\resources\\Images\\egg.png"));
 		ImageView eggImgV = new ImageView();
 		eggImgV.setImage(eggImg);
 		eggImgV.setFitWidth(75);
@@ -569,7 +569,7 @@ public class Main extends Application implements EventHandler<ActionEvent> {
 		eggImgV.setCache(true);
 
 		Image sausageImg = new Image(new FileInputStream(
-				"src/runfx/resources/Images/sausage.png"));
+				"application\\src\\main\\resources\\Images\\sausage.png"));
 		ImageView sausageImgV = new ImageView();
 		sausageImgV.setImage(sausageImg);
 		sausageImgV.setFitWidth(75);
@@ -578,7 +578,7 @@ public class Main extends Application implements EventHandler<ActionEvent> {
 		sausageImgV.setCache(true);
 
 		Image butterImg = new Image(new FileInputStream(
-				"src/runfx/resources/Images/butter.png"));
+				"application\\src\\main\\resources\\Images\\butter.png"));
 		ImageView butterImgV = new ImageView();
 		butterImgV.setImage(butterImg);
 		butterImgV.setFitWidth(75);
